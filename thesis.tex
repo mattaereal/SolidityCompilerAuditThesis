@@ -1,0 +1,91 @@
+\documentclass[12pt,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[RO,LE]{
+    {Auditoría de Software Orientada a Compiladores.
+    Caso de Estudio: Solidity}
+}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[LO,CE]{Chapter \thechapter}
+\fancyfoot[CO,RE]{Matías A. Ré Medina}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+\title{
+    {Auditoría de Software Orientada a Compiladores}\\
+    {Caso de Estudio: Solidity}\\
+    {\includegraphics[height=258px,width=300px]{unicen_big.jpg}}
+}
+
+
+\author{
+    {Alumno: Matías Ariel Ré Medina}\\
+    {Director: Dr. Ing. José María Massa}
+}
+\date{April 2019}
+
+\begin{document}
+\maketitle
+
+\chapter*{Abstract}
+Abstract goes here
+ 
+\chapter*{Dedication}
+To mum and dad
+ 
+\chapter*{Declaration}
+I declare that..
+ 
+\chapter*{Acknowledgements}
+I want to thank...
+ 
+\tableofcontents
+
+\chapter{Introducción a la auditoría de software}
+\input{chapters/ch01}
+ 
+\chapter{Introducción a la auditoría de compiladores}
+\input{chapters/ch02}
+ 
+\chapter{Técnicas más populares}
+\input{chapters/ch03}
+ 
+\chapter{Casos de ejemplo}
+\input{chapters/ch04}
+
+\chapter{Solidity como caso de estudio}
+\input{chapters/ch05}
+
+\chapter{Explicación de contexto}
+\input{chapters/ch06}
+
+\chapter{Explicación del proyecto}
+\input{chapters/ch07}
+
+\chapter{Técnicas y herramientas utilizadas}
+\input{chapters/ch08}
+
+\chapter{Resultados}
+\input{chapters/ch09}
+
+\chapter{Feedback de los resultados}
+\input{chapters/ch10}
+
+\chapter{Conclusión}
+\input{chapters/ch11}
+
+\chapter{Future work}
+\input{chapters/ch12}
+
+\appendix
+\chapter{Apéndice A}
+\input{chapters/appendixA}
+
+\end{document}
