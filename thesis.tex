@@ -1,9 +1,13 @@
-\documentclass[12pt,twoside]{report}
+\documentclass[a4paper, twoside]{report}
+\setcounter{secnumdepth}{5}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \graphicspath{ {images/} }
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
 \usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{csquotes}
+\usepackage{quoting}
 \pagestyle{fancy}
 \fancyhead{}
 \fancyhead[RO,LE]{
@@ -17,75 +21,55 @@
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
+\usepackage{tcolorbox}
+\newtcolorbox{notesBox}{colback=gray!5!white,colframe=gray!75!black}
 
-\title{
-    {Auditoría de Software Orientada a Compiladores}\\
-    {Caso de Estudio: Solidity}\\
-    {\includegraphics[height=258px,width=300px]{unicen_big.jpg}}
-}
-
-
-\author{
-    {Alumno: Matías Ariel Ré Medina}\\
-    {Director: Dr. Ing. José María Massa}
-}
-\date{April 2019}
-
+\usepackage[backend=biber,style=authoryear,sorting=ynt,style=numeric-comp]{biblatex}
+\addbibresource{./references.bib}
 \begin{document}
-\maketitle
 
-\chapter*{Abstract}
-Abstract goes here
+\input{titlepage}
+
+% \input{abstract}
  
-\chapter*{Dedication}
-To mum and dad
+% \chapter*{Dedicación}
+% Quiero dedicarle la tésis particularmente a mis padres, en principal a mi madre Silvia Medina.
  
-\chapter*{Declaration}
-I declare that..
- 
-\chapter*{Acknowledgements}
-I want to thank...
+% \chapter*{Agradecimientos}
+% Me gustaría agradecerle a los que me acompañaron a lo largo de las investigaciones
+% que desarrollé, dentro de mi inconformidad, hasta dar con esta que terminaría siendo mi tésis.
+% Sebastián Fernández, Patricio Palladino, Iñaki Berra, Mariano Cocirio, Coni, Viole.
  
 \tableofcontents
 
-\chapter{Introducción a la auditoría de software}
+
+\chapter{Introducción}
 \input{chapters/ch01}
- 
-\chapter{Introducción a la auditoría de compiladores}
+\chapter{Marco teórico}
 \input{chapters/ch02}
- 
-\chapter{Técnicas más populares}
-\input{chapters/ch03}
- 
-\chapter{Casos de ejemplo}
-\input{chapters/ch04}
 
-\chapter{Solidity como caso de estudio}
-\input{chapters/ch05}
-
-\chapter{Explicación de contexto}
-\input{chapters/ch06}
-
-\chapter{Explicación del proyecto}
-\input{chapters/ch07}
-
-\chapter{Técnicas y herramientas utilizadas}
-\input{chapters/ch08}
-
-\chapter{Resultados}
-\input{chapters/ch09}
-
-\chapter{Feedback de los resultados}
-\input{chapters/ch10}
-
-\chapter{Conclusión}
-\input{chapters/ch11}
-
-\chapter{Future work}
-\input{chapters/ch12}
-
-\appendix
-\chapter{Apéndice A}
-\input{chapters/appendixA}
-
+\printbibliography
 \end{document}
+
+
+% \chapter{Estado del arte}
+% \input{chapters/ch03}
+
+% \chapter{Método propuesto}
+% \input{chapters/ch04}
+
+% \chapter{Resultados}
+% \input{chapters/ch05}
+
+% \chapter{Trabajo futuro}
+% \input{chapters/ch06}
+
+% \chapter{Conclusiones}
+% \input{chapters/ch07}
+
+% \chapter{Bibliografía}
+% \input{chapters/ch08}
+
+% \appendix
+% \chapter{Apéndice A}
+% \input{chapters/appendixA}
