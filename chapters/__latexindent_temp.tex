@@ -1,0 +1,56 @@
+La investigación se situó como parte de un trabajo realizado como investigador independiente bajo contrato con la empresa Zeppelin Solutions. Se integró el equipo de auditoría con intención de aplicar perspectivas de seguridad.\\
+
+Los resultados mostrados han sido extraídos, traducidos y adaptados del reporte original que se publicó en conjunto y puede ser observado aquí\cite{SolidityCompilerAuditReportZep}. Asimismo, la distancia temporal que se tomó para permitirle al equipo encargado del proyecto de Solidity responder a cada descubrimiento, posibilitó agregar un seguimiento, el cual se podrá apreciar debajo de cada situación descripta, como nota de \textbf{"Actualidad"}.\\
+
+Se evitó extender esta sección en demasía, teniendo en cuenta que el detalle entero se puede observar para detalles técnicos en profundidad en el reporte técnico previamente publicado. Se hará hincapié en los hallazgos más interesantes, y en los que estén solapados directamente con perspectivas de seguridad.\\
+
+\section{Hallazgos por categoría}
+\subsection{Problemas de contexto general}
+\subsubsection{Se pueden inyectar direcciones inválidas de bibliotecas en la etapa de linkeo.
+}
+
+Un contrato que depende de una biblioteca con funciones públicas tendrá la dirección de la instancia desplegada de la librería en su bytecode. Dado que esta dirección no es conocida por el compilador, tiene que ser provista por el usuario: esto se hace mediante la opción \verb|--libraries| en \textbf{solc}. Sin embargo, es imposible no proveer esas direcciones, y dejar el contrato sin estar linkeado; es por eso que una secuencia especial de caracteres, conteniendo el nombre de la biblioteca va a estar presente en el bytecode, previniendo que el contrato sea desplegado sin que la dependencia sea resuelta, utilizando el modo \verb|--link| de \textbf{solc}, en el cual el enlace es realizado.\\
+
+El problema surge en la representación de este string: es truncado a 36 caracteres, y los caracteres remanentes del nombre de la librería son eliminados, sin advertencias. Es posible, entonces, tener múltiples librerías que compartan un nombre truncado, haciendo que compartan un prefijo suficientemente largo. Considerar el ejemplo a continuación:
+
+
+\begin{lstlisting}[language=Solidity]
+    
+    library OpenZeppelinStdLibraryArray {
+    ...
+    }
+
+    library OpenZeppelinStdLibraryArrayUtils {
+    ...
+    }
+
+    contract Test {
+        function test() public pure returns (uint256) {
+            if (OpenZeppelinStdLibraryArrayUtils.isArrayEmpty(arr)) {
+            return OpenZeppelinStdLibraryArray.getArrayLength(arr);
+            } else {
+            return 0;
+            }   
+        }
+    }
+\end{lstlisting}
+
+El bytecode generado al llamar \verb|solc Test.sol --bin| incluirá dos instancias de la secuencia \verb|'__Test.sol:OpenZeppelinStdLibraryArray__'| (la representación truncada del string del nombre de la librería). Cuando se llama a \verb|solc --link --libraries| con direcciones para ambas librerías, el compilador identificará ambas instancias como referencias repetidas \verb|OpenZeppelinStdLibraryArray|, y reemplazará ambas de ellas con esa dirección, ignorando por completo la dirección provista para la otra librería.\\
+
+Este problema está compuesto de otro, el cual causa a los nombres de bibliotecas truncados que sólo requieran un \textit{matching} de prefijo, incrementando la superficie de ataque. Considerar las siguientes librerías:
+
+\begin{lstlisting}[language=Solidity]
+library OpenZeppelinStandardLibraryArrayCore {
+  ...
+}
+
+library OpenZeppelinStandardLibraryArrayUtils {
+  ...
+}
+\end{lstlisting}
+
+El nombre de librería trucado es \verb|OpenZeppelinStandardLibrary|, pero pasando cualquier string que comience con esa secuencia al comando \verb|--libraries| también hará que a ambas bibliotecas se le asignen la misma dirección, a pesar de el hecho de que ninguna biblioteca ni un marcador de posición (placeholder) en el bytecode se asemeje a ese string, por ejemplo: \verb|solc Test.sol --bin| $\vert$ \verb|solc --link --libraries "OpenZeppelinStdLibraryArrayCollection:<address>"|.\\
+
+Se recomendó considerar remover el tamaño máximo de nombre de librería por completo, o rediseñar la implementación para que permite utilizar librerías con nombres largos.\\
+
+Actualidad: Existen issues abiertos previos al respecto, \#579\cite{GHI579}, \#3918\cite{GHI3918} y \#4429\cite{GHI4429}. El equipo de Solidity respondió "Esta función no está aconsejada, los usuarios deben usar el json estándar que genera las referencias de enlace. Esto es sólo un problema en la interfaz en desuso del compilador". Solucionado en PR\#5145\cite{GHPR5145}.
