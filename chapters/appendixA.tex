@@ -1,6 +1,423 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est et quam aliquam, sit amet fermentum dui tincidunt. Donec fringilla ipsum fermentum nibh ultrices mattis. Sed eu metus ultricies, malesuada diam pulvinar, lacinia velit. Sed maximus justo eget mi aliquam vestibulum. Mauris eget magna id risus sodales ullamcorper non sed orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse egestas augue in volutpat tincidunt. Vivamus ac urna finibus, imperdiet enim quis, elementum odio. Phasellus vel pretium ipsum. Morbi non ipsum convallis, consectetur nisi vitae, tempus sem. Fusce sodales, augue vitae posuere dignissim, odio nibh volutpat enim, sed placerat risus elit quis mi. Ut pretium convallis tellus, at faucibus nulla. Aliquam porta neque in orci vehicula, eu ultrices nunc consequat. Suspendisse sodales diam sit amet nisi luctus, eget ullamcorper elit consectetur. Curabitur nec libero velit.
+\subsection*{A.SOL-001 \color{ForestGreen}—SOLUCIONADO}
+Amplio incremento, descripto a razón O(${n^2}$) en la salida de mensajes del compilador por advertencias forzadas / errores.
+\bigskip
 
-Praesent ligula mi, convallis eget turpis eu, tempor faucibus nunc. Praesent consequat tortor ac ligula dapibus ultricies. Duis id accumsan metus. Phasellus vel diam in velit dignissim vulputate. Integer sodales ullamcorper lorem eget suscipit. Phasellus gravida tempus facilisis. Sed mi sem, convallis posuere elit in, aliquam laoreet tellus. Etiam finibus feugiat purus, gravida condimentum sapien maximus a. Pellentesque ac risus turpis. Sed a nibh diam. Etiam viverra nisl auctor nulla efficitur fringilla. Vivamus vitae arcu a ante lobortis ullamcorper. Proin et lorem consectetur, aliquet nisi ac, tempus sem. Aenean ut massa id eros efficitur tincidunt.
+Se reportó que el compilador emitía sun sinnúmero de mensajes.\\
 
-Nam eu condimentum sem. Etiam iaculis et nunc a sollicitudin. Nulla vitae quam magna. Aliquam vestibulum, nibh ut accumsan malesuada, libero est facilisis ante, in aliquet mi velit quis nibh. Suspendisse pharetra sapien vitae massa sodales fringilla. Sed varius nulla eget lorem dignissim lacinia. Phasellus hendrerit imperdiet magna id hendrerit. Curabitur porttitor leo nec luctus tempus. Maecenas hendrerit, mauris ac auctor tempor, magna nulla accumsan mi, et dictum quam tellus a nunc. Etiam auctor dui ut lectus maximus, sed accumsan nunc facilisis. Fusce facilisis nec dolor ut molestie. Nunc in elit suscipit eros interdum porta sed sed dui. Praesent ut quam ultricies nisl vulputate efficitur. Cras sit amet ultrices odio, tristique mollis arcu. Vestibulum vehicula lectus nunc, sed sollicitudin urna mattis ut. Suspendisse egestas ornare massa non ornare.
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item No imprimir la línea en cuestión en caso de que esta sea larga a la hora de mostrar una advertencia o error.
+    \item Setear un número máximo de advertencias o errores a reportar.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item La línea ya no se muestra completa.
+    \begin{lstlisting}
+    sol_001.sol:7:758: Warning: Use of unary + is deprecated.
+    ... +x ...
+    \end{lstlisting}
+    \item Cantidad de mensajes mostrados truncados a 256.
+    \begin{lstlisting}
+        Warning: There are more than 256 warnings. Ignoring the rest.
+    \end{lstlisting}
+\end{itemize}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract TryMe {
+        function warns() {
+        uint x;
+        +x;+x;+x;+x;...+x;+x;
+        }        
+\end{lstlisting}
+
+
+\subsection*{A.SOL-002  \color{ForestGreen}—SOLUCIONADO}
+Amplio incremento, descripto a razón O(${n^2}$) en la salida de mensajes del compilador mediante duplicados en los nombres de funciones.\\
+
+Similarmente al anterior, se reportó que el compilador emitía sun sinnúmero de mensajes.\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Reportar un sólo error para todos los duplicados de una misma función.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Duplicados truncados a las primeras 32 ocurrencias.
+    \begin{lstlisting}
+        sol_002.sol:4:2: Error: Function with same name and arguments defined twice. Truncated from 4998 to the first 32 occurrences.
+        ... function asdyrtuiwekjasdsagfkhjsada ... dasdasdyrtuiwekjasdsagfkhjsadasd(); ...
+            ^-------------------------------------------------------------------------^    
+       sol_011.sol:4:2394: Other declaration is here:
+        ... function asdyrtuiwekjasdsagfkhjsada ... dasdasdyrtuiwekjasdsagfkhjsadasd(); ...
+            ^-------------------------------------------------------------------------^
+       sol_002.sol:4:4786: Other declaration is here:
+        ... function asdyrtuiwekjasdsagfkhjsada ... dasdasdyrtuiwekjasdsagfkhjsadasd(); ...
+            ^-------------------------------------------------------------------------^   
+    \end{lstlisting}
+\end{itemize}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract e {
+        function e();function e();...function e();
+    }    
+\end{lstlisting}
+
+
+\subsection*{A.SOL-003  \color{ForestGreen}—SOLUCIONADO}
+Incremento en el uso de RAM por ciclos entre constantes.\\
+
+Se reportó que el compilador consume una gran cantidad de RAM detectando ciclos por referencias cruzadas.\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Reescribir el algoritmo de búsqueda de ciclos para evitar copiar estados mientras se recorre, o establecer un límite en la profundidad de las referencias constantes.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item El tiempo de compilación de ahora es el esperado.
+    \item No hay notables incrementos en el consumo de RAM.
+\end{itemize}
+\begin{lstlisting}
+    sol_003.sol:4:448: Warning: This declaration shadows an existing declaration.                                                                   
+    ... a constant a=b ...                                                             
+        ^------------^                                                                                                                              
+   sol_003.sol:3:2: The shadowed declaration is here:                                                                                              
+           contract a {}                                                               
+           ^-----------^
+
+   sol_003.sol:4:23221: Warning: This declaration shadows an existing declaration.                                                                 
+    ... a constant XX=XY ...                                                                                                                        
+        ^--------------^                                                                 
+   sol_003.sol:4:2: The shadowed declaration is here:                                                                                               
+           contract XX { a constant A=B; a con ... t ZZY=ZZZ; a constant ZZZ=a(0x00);}
+\end{lstlisting}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract a {}
+    contract XX { a constant A=B; a constant B=C; a constant C=D; a constant D=E;
+       a constant E=F; a constant F=G; a constant G=H; a constant H=I; a constant I=J;
+       a constant J=K; a constant K=L; a constant L=M; a constant M=N; a constant N=O;
+       a constant O=P; a constant P=Q; a constant Q=R; a constant R=S; a constant S=T;
+       a constant T=U; a constant U=V;...a constant ZZW=ZZX; a constant ZZX=ZZY;
+       a constant ZZY=ZZZ;
+        a constant ZZZ=a(0x00);
+   }   
+\end{lstlisting}
+\bigskip
+
+\subsection*{A.SOL-004  \color{ForestGreen}—SOLUCIONADO}
+Incremento en el uso de RAM debido a pasos exponenciales en búsquedas de ciclos entre constantes.\\
+
+Similar al anterior, explotando el mismo problema con una leve variación.\\
+
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Reescribir el algoritmo de búsqueda de ciclos para evitar copiar estados mientras se recorre, o establecer un límite en la profundidad de las referencias constantes.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Tiempo de compilación actual reducido: archivo de 64k con un patrón como este toma 15 minutos en finalizar.
+    \item No se ha encontrado un incremento en el uso de RAM.
+\end{itemize}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract XX {
+        int constant v0a=v1a+v1b; int constant v0b=v1a+v1b; int constant v1a=v2a+v2b;int constant v1b=v2a+v2b;int constant v2a=v3a+v3b;int constant v2b=v3a+v3b...int constant v9999b=v10000a+v10000b;
+         
+        int constant v10000a = 0;
+        int constant v10000b = 0;
+        }        
+\end{lstlisting}
+
+\subsection*{A.SOL-005  \color{BrickRed}—SIN SOLUCIÓN}
+No se halla un límite en el costo del gas cuando se borran arreglos dinámicos.\\
+
+La operación de borrado en arreglos dinámicos genera bytecode para borrar los elementos uno por uno. Esto puede producir excepciones del estilo "Out of gas".\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Advertir al usuario de las implicancias de borrar arreglos de tamaño dinámico.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Reportado en el \textit{issue} \#3324\cite{GHI3324}.
+    \item No se produce ningún mensaje de advertencia.    
+\end{itemize}
+\bigskip
+
+\textbf{Update:} Este problema será solucionado con un cambio fundamental en la versión \texttt{v0.6.0}.\\
+
+Teniendo un contrato con un arreglo dinámico de solamente 200 items, y una función que intenta borrarlo, los costos de llamar a esa misma función están cercanos al millón de gas para ambas transacción y ejecución. Excepciones "Out of gas" son inminentes para casos superiores.\\
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract ArrayTest {
+        uint[] public dynArr;
+        constructor () public {
+            dynArr.length = 200;
+            dynArr[0]=0;
+            dynArr[1]=1;
+            dynArr[2]=2;
+            dynArr[3]=3;
+            dynArr[198]=198;
+            dynArr[199]=199;
+        }
+        function delArr() public {
+            delete dynArr;
+        }
+    }    
+\end{lstlisting}
+\bigskip
+
+\subsection*{A.SOL-006  \color{ForestGreen}—SOLUCIONADO}
+No se reportan las llamadas duplicadas al constructor de la clase de la que se extendió el contrato (\textit{super-constructor}).\\
+
+Solidity provee dos maneras diferentes de usar llamadas al constructor de una clase de la que se extiende (\texttt{super constructor}). El compilador permite utilizar ambas al mismo tiempo, ignorando la primera opción sin producir error o emitir una advertencia.\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Quitarle al usuario la posibilidad de definir dos llamadas de este estilo, o advertir al usuario si una de ellas hace que se ignore la otra.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Una advertencia se muestra cuando el constructor base es utilizado más de una vez.
+\end{itemize}
+\begin{lstlisting}
+sol_006.sol:8:25: Warning: Base constructor arguments given twice.
+function P2(uint v) P1(40) public {
+                    ^----^
+sol_006.sol:7:16: Second constructor call is here:
+contract P2 is P1(20) {
+               ^----^
+\end{lstlisting}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract P1 {
+        function P1(uint v) public {}
+     }
+     contract P2 is P1(20) {
+        function P2(uint v) P1(40) public {}
+     }
+\end{lstlisting}
+\bigskip
+
+\subsection*{A.SOL-007  \color{BrickRed}—SIN SOLUCIÓN}
+Asignación múltiple con valores a izquierda (LValues) vacíos propenso a errores.\\
+
+Solidity permite la asignación de múltiples valores al mismo tiempo, y algunos de los valores del lado izquierdo pueden ser omitidos.\\
+
+Ejemplo de un LValue posicional vacío: \texttt{var (,y,) = (V0,V1,V2);}
+Ejemplo de un LValue al final vacío: \texttt{var (g1,) = (return1(),return2());}
+Ejemplo de un LValue al principio vacío:  \texttt{var (,d1, d2) = (V0,V1,V2,V3,V4,V5,V6);}\\
+
+Hay un caso que es propenso a errores, cuando la cantidad de LValues y RValues (valores del lado derecho) difieren. No está claro como se está realizando la asignación.\\
+
+Ejemplo: var ( , ,e2, e3) = (V0,V1,V2,V3,V4);. e2 = v3 y e3 = v4, incluso si esto supone e2=v2 y e3=v3.\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item En caso de que sean LValues vacíos principio/fin, no se debería poder especificar ningún otro valor vacío para otro LValue. Para valores vacíos de principio/fin, marcarlos con tres puntos para diferenciarlos de los valores posicionales, como en el siguiente ejemplo:
+    \texttt{var ( ... , e3, e4) = (V0,V1,V2,V3,V4);}    
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Reportado en el \textit{issue} \#3314\cite{GHI3314}.
+    \item Este tipo de asignaciones todavía es realizable. 
+    \item Se muestra una advertencia mostrando una cantidad diferente de componentes. 
+    \item No hay manera alternativa de expresar valores a izquierda posicionales con el método recomendado \texttt{"..."}.
+\end{itemize}
+
+\textbf{Update:} este \textit{issue}\cite{GHI3325} ha sido solucionado, y en la versión v0.5.0 esta situación será retornada como un error.\\
+
+\begin{lstlisting}
+    ./sol_007.sol:19:9: Warning: Different number of components on the left hand side (4) than on the right hand side (5).
+    var ( , , e2, e3) = (v0, v1, v2, v3, v4);
+            ^--------------------------------------^    
+\end{lstlisting}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract Values {
+        uint v0;
+        uint v1;
+        uint v2;
+        uint v3;
+        uint v4;
+        uint f2;
+        uint f3;
+        constructor () public {
+            v0 = 0;
+            v1 = 1;
+            v2 = 2;
+            v3 = 3;     
+            v4 = 4;
+            var (,, e2, e3) = (v0, v1, v2, v3, v4);
+         f2 = e2; //3
+         f3 = e3; //4
+        }  
+     }
+\end{lstlisting}
+
+
+\subsection*{A.SOL-008  \color{ForestGreen}—SOLUCIONADO}
+Incremento en el uso de ciclos de procesamiento utilizando grandes números literales del tipo \texttt{bignum}.\\
+
+El procesamiento de literales numéricos de precisión arbitraria consume grandes cantides de uso de CPU.\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Limitar el tamaño de literales numéricos.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Litetales numéricos de precisión arbitraria se encuentran limitados.
+\end{itemize}
+\begin{lstlisting}
+    sol_008.sol:11:13: Error: Type int_const 1000...(71 digits omitted)...0000 is not implicitly convertible to expected type uint256.
+    c = 1e78;
+	 ^--^
+\end{lstlisting}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract BIGNUMTEST {
+        constructor() public {
+            uint256 c;
+            uint256 d;
+            c = 1e77; //OK
+            d = 2e76; //OK
+            c = c ** d; //OK
+            c = 1e78; //ERR
+        }
+     }     
+\end{lstlisting}
+
+
+\subsection*{A.SOL-009  \color{ForestGreen}—SOLUCIONADO}
+Amplio incremento en la salida de mensajes al usar grandes literales numéricos del tipo \texttt{bignum}.\\
+
+Los errores presentados correspondientes a números con precisión arbitraria muestran todos sus dígitos.\\
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Achicar constantes literales reemplazando dígitos intermedios por \texttt{"..."} a la hora de imprimir errores en la salida estándar de errores (\texttt{stderr}, por ejemplo 1000...000).
+    \item Reducir el número de advertencias/errores escritos a \texttt{stderr}.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item La salida ahora reemplaza dígitos intermedios con \texttt{"..."}.
+    \begin{lstlisting}
+        sol_009.sol:11:13: Error: Type int_const 1000...(71 digits omitted)...0000 is not implicitly convertible to expected type uint256.
+        c = 1e78;
+            ^--^
+    \end{lstlisting}
+    \item La cantidad de advertencias/errores se encuentra truncada a 256 mensajes.
+\end{itemize}
+\bigskip
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    contract BIGNUMTEST {
+        constructor() public {
+            uint256 c;
+            uint256 d;
+            c = 1e77; //OK
+            d = 2e76; //OK
+            c = c ** d; //OK
+            c = 1e78; //ERR
+        }
+     }     
+\end{lstlisting}
+
+
+\subsection*{A.SOL-010  \color{BrickRed}—SIN SOLUCIÓN}
+Es muy fácil confundir la manera en que funcionan las sobre-escrituras (\texttt{override}s).\\
+
+Hacer una sobre-escritura de una función sólo funciona cuando las firmas (signatures) de cada función son exactamente iguales. Escenarios reales son propensos a errores a código malintencionado.\\
+
+
+\textbf{Recomendaciones previas}
+\begin{itemize}
+    \item Modificar el lenguaje de Solidity para que se requiera la palabra reservada \texttt{override} como un modificador para la definición de funciones en casos como estos. El compilador debería generar un error al intentar compilar una función con este modificador si no existe una función padre a la que sobre-escribir.
+\end{itemize}
+\bigskip
+
+\textbf{Estado actual}
+\begin{itemize}
+    \item Reportado en el \texttt{issue} \#2563\cite{GHI2563}.
+    \item No se emiten advertencias.
+    \item No existe la palabra reservada \texttt{override}.
+\end{itemize}
+
+\textbf{Update:} hay una solución planificada para esta situación en la versión \texttt{v0.6.0}.\\
+
+\textbf{Código utilizado para probar nuevamente este caso}
+\begin{lstlisting}[language=Solidity]
+    library String {
+        function equals(string memory _a, string memory _b) internal pure returns (bool) {
+            bytes memory a = bytes(_a);
+            bytes memory b = bytes(_b);
+        if (a.length != b.length)
+                return false;
+        for (uint i = 0; i < a.length; i++)
+                if (a[i] != b[i])
+                           return false;
+                return true;
+              }
+        }
+        contract Override {
+            using String for string;
+            constructor () public {}
+            
+            function overrideMe(int i) public pure {
+                i = i + 1;
+            }
+        function overrideMeToo(string s) public pure {
+                s = "zeppelin";
+            }
+        }
+        contract TryOverride is Override {
+        constructor () public {}
+        function overrideMe(uint u) public pure {
+                   u = 1337;
+               }
+        function overrideMeToo(String s) public pure {
+                   String ss;
+                   String override;
+                   s = ss;
+                   override = s;
+               }
+            }        
+\end{lstlisting}
 

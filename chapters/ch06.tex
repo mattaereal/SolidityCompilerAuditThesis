@@ -1,0 +1,30 @@
+Este trabajo brinda la posibilidad al lector de replantearse la posición que se toma o tomará respecto a la seguridad en cada proyecto, pasado, presente y futuro.\\
+
+Viéndolo desde distintos ángulos se pueden separar los siguientes vectores a desarrollar:
+\begin{enumerate}
+    \item utilizar herramientas de mayor nivel de abstracción para la auditoría de software.
+    \item aplicar metodologías que hagan énfasis en el aspecto de seguridad en lenguajes/compiladores.  
+    \item aplicar procesos/metodologías conocidos y probados del campo de la auditoría de software.
+\end{enumerate}
+
+\subsection{(1) Herramientas abstractas para la auditoría de software}
+
+Una de las herramientas que existen en el mercado que más han llamado la atención, es la desarrollada por la empresa \textit{Semmle}, que posee un lenguaje de consultas llamado \textit{QL}.\\
+
+
+\textit{QL permite realizar rápidamente análisis de variantes para encontrar vulnerabilidades de seguridad previamente desconocidas. QL trata el código como datos que le permiten escribir consultas personalizadas para explorar su código.}\\
+
+\textit{QL se entrega con amplias bibliotecas para realizar control y análisis de flujo de datos, seguimiento de contaminación y explorar modelos de amenazas conocidos sin tener que preocuparse por conceptos de lenguaje de bajo nivel y detalles del compilador. Los lenguajes compatibles incluyen C / C ++, C\#, Java, Javascript, Python y más.}\\
+
+El tipo de consultas que se pueden hacer es casi tan simple como buscar ``variables no inicializadas dentro de un ciclo".\\
+
+Este tipo de herramientas parecen ser de lo más adecuadas para trabajar los problemas que aparecen al tener un nivel de abstracción superior, dado que las consultas semánticas se pueden reutilizar a través de distintos proyectos.
+
+
+\subsection{(2) Seguridad en lenguajes/compiladores}
+La seguridad como parte de los compiladores es un campo activo y reciente. Se encuentran alternativas en discusión, como proveer de características a LLVM\cite{EbecosmCompilation}\cite{EbecosmSecurityCompilers} para que sea más seguro. Aunque posee dificultades para detectar a tan bajo nivel potenciales problemas de seguridad sin un contexto dado.\\
+
+Otra opción es proveer un lenguaje seguro por defecto como es el caso de Rust. Su inconveniente es que si debe interaccionar con software que no está hecho en su mismo lenguaje, su seguridad se vuelve tan segura como la del software con el que interactúa. Es un problema recurrente en las grandes empresas que lo están incorporando, y rehacer todo el código en un nuevo lenguaje no suele ser una opción viable.\\
+
+\subsection{(3) Procesos/metodologías de auditoría de software}
+Desde esta perspectiva hace falta hacer más concientización para que lo que se incorporen no sean más herramientas aisladas sino procesos/metodologías que las contengan. Estas metodologías han mostrado ser efectivas durante muchos años en el proceso del desarrollo de cualquier sistema de software y no existen motivos para no aplicarlas en el desarrollo de un compilador. 

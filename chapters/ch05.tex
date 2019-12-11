@@ -1,8 +1,17 @@
+TODO:
+\begin{itemize}
+  \item Agregar referencia al apéndice en Coinspect audit.
+\end{itemize}
+\bigskip
+
 La investigación se situó como parte de un trabajo realizado como investigador independiente bajo contrato con la empresa Zeppelin Solutions. Se integró el equipo de auditoría con intención de aplicar perspectivas de seguridad.\\
 
-Los resultados mostrados han sido extraídos, traducidos y adaptados del reporte original que se publicó en conjunto y puede ser observado aquí\cite{SolidityCompilerAuditReportZep}. Asimismo, la distancia temporal que se tomó para permitirle al equipo encargado del proyecto de Solidity responder a cada descubrimiento, posibilitó agregar un seguimiento, el cual se podrá apreciar debajo de cada situación descripta, como nota de \textbf{"Actualidad"}.\\
+Los resultados mostrados han sido extraídos, traducidos y adaptados del reporte original que se publicó en conjunto y puede ser observado en el reporte oficial\cite{SolidityCompilerAuditReportZep}. Asimismo, la distancia temporal que se tomó para permitirle al equipo encargado del proyecto de Solidity responder a cada descubrimiento, posibilitó agregar un seguimiento, el cual se podrá apreciar debajo de cada situación descripta, como nota de \textbf{Actualidad}.\\
 
-Se evitó extender esta sección en demasía, teniendo en cuenta que el detalle entero se puede observar para detalles técnicos en profundidad en el reporte técnico previamente publicado. Se hará hincapié en los hallazgos más interesantes, y en los que estén solapados directamente con perspectivas de seguridad.\\
+Tal como se comentó en el capítulo \ref{chap:metodo}, se prefirió presentar los resultados en este capítulo siguiendo un orden más cercano a objetivo de la auditoría que respecto de la metodología aplicada. Si bien no se muestra explícitamente en cuáles de los resultados se aplicaron las técnicas mencionadas en los puntos descritos en la sección 4 del capítulo 4, las mismas se utilizaron implícitamente y en conjunto para producir los resultados de la auditoría.\\
+
+Se evitó extender esta sección en demasía, teniendo en cuenta que el detalle entero se puede observar para detalles técnicos en profundidad en el reporte técnico previamente publicado. Se hará hincapié en los hallazgos más interesantes, y en los que estén solapados directamente con perspectivas de seguridad.
+
 
 \section{Hallazgos por categoría}
 \subsection{Problemas de contexto general}
@@ -49,11 +58,11 @@ library OpenZeppelinStandardLibraryArrayUtils {
 }
 \end{lstlisting}
 
-El nombre de librería trucado es \verb|OpenZeppelinStandardLibrary|, pero pasando cualquier string que comience con esa secuencia al comando \verb|--libraries| también hará que a ambas bibliotecas se le asignen la misma dirección, a pesar de el hecho de que ninguna biblioteca ni un marcador de posición (placeholder) en el bytecode se asemeje a ese string, por ejemplo: \verb|solc Test.sol --bin| $\vert$ \verb|solc --link --libraries "OpenZeppelinStdLibraryArrayCollection:<address>"|.\\
+El nombre de librería trucado es \verb|OpenZeppelinStandardLibrary|, pero pasando cualquier string que comience con esa secuencia al comando \verb|--libraries| también hará que a ambas bibliotecas se le asignen la misma dirección, a pesar de el hecho de que ninguna biblioteca ni un marcador de posición (placeholder) en el bytecode se asemeje a ese string, por ejemplo: \verb|solc Test.sol --bin| $\vert$ \verb|solc --link --libraries ``OpenZeppelinStdLibraryArrayCollection:<address>"|.\\
 
 Se recomendó considerar remover el tamaño máximo de nombre de librería por completo, o rediseñar la implementación para que permite utilizar librerías con nombres largos.\\
 
-\textbf{Actualidad:} Existen \textit{issues} abiertos previos al respecto, \textbf{\#579}\cite{GHI579}, \textbf{\#3918}\cite{GHI3918} y \textbf{\#4429}\cite{GHI4429}. El equipo de Solidity respondió "Esta función no está aconsejada, los usuarios deben usar el json estándar que genera las referencias de enlace. Esto es sólo un problema en la interfaz en desuso del compilador". Solucionado en \textbf{PR\#5145}\cite{GHPR5145}.\\
+\textbf{Actualidad:} Existen \textit{issues} abiertos previos al respecto, \textbf{\#579}\cite{GHI579}, \textbf{\#3918}\cite{GHI3918} y \textbf{\#4429}\cite{GHI4429}. El equipo de Solidity respondió ``Esta función no está aconsejada, los usuarios deben usar el json estándar que genera las referencias de enlace. Esto es sólo un problema en la interfaz en desuso del compilador". Solucionado en \textbf{PR\#5145}\cite{GHPR5145}.\\
 
 \subsubsection{Llamadas inseguras al sistema pueden llevar a una ejecución de comandos durante la etapa de testeo.}
 
@@ -64,7 +73,7 @@ El siguiente código de \textbf{isoltest} abre un editor del sistema al encontra
 
 \begin{lstlisting}[language=c++]
 if (system((editor + " \"" + m_path.string() + "\"").c_str()))
-  cerr << "Error running editor command." << endl << endl;
+  cerr << ``Error running editor command." << endl << endl;
   return Request::Rerun;
 \end{lstlisting}
 
@@ -83,7 +92,7 @@ Notar que utilizar la opción \texttt{--editor} posee el mismo problema.\\
 
 Se recomendó considerar utilizar un abordaje diferente que no utilice un intérprete directo. Por ejemplo \textbf{execv} o \textbf{execve}, que trabajan de manera diferente, realizando una bifurcación a nuevos procesos (\textit{fork} de ahora en adelante) y creando el \textit{command string} de una manera que elimina preocupaciones sobre \textit{buffer overflows} o \textit{string truncation}. Más información aquí\cite{CMUSystem}.\\
 
-\textbf{Actualidad:} El equipo de Solidity respondió: “Cabe señalar que esto no es parte del código de producción. Es solo una parte de la infraestructura de prueba. Queremos ejecutar el editor, por lo que esto siempre resultará en la ejecución del código. Una contramedida sería verificar si `EDITOR` es la ruta directa de un archivo ejecutable y también imprimir el archivo antes de que se le pregunte al usuario qué hacer con respecto a la falla. Además, si un atacante tiene control sobre las variables de entorno en una máquina de compilación, no hay absolutamente ninguna manera de protegerse contra tal ataque. Una variable de entorno que casi con certeza conducirá a un exploit es, por ejemplo, "CC": el compilador de C y probablemente haya toneladas más". La discusión continúa en el issue \textbf{\#5159}\cite{GHI5159}.\\
+\textbf{Actualidad:} El equipo de Solidity respondió: “Cabe señalar que esto no es parte del código de producción. Es solo una parte de la infraestructura de prueba. Queremos ejecutar el editor, por lo que esto siempre resultará en la ejecución del código. Una contramedida sería verificar si `EDITOR` es la ruta directa de un archivo ejecutable y también imprimir el archivo antes de que se le pregunte al usuario qué hacer con respecto a la falla. Además, si un atacante tiene control sobre las variables de entorno en una máquina de compilación, no hay absolutamente ninguna manera de protegerse contra tal ataque. Una variable de entorno que casi con certeza conducirá a un exploit es, por ejemplo, ``CC": el compilador de C y probablemente haya toneladas más". La discusión continúa en el issue \textbf{\#5159}\cite{GHI5159}.\\
 
 \subsubsection{Manejo inseguro de strings en la infraestructura de testeo.}
 \textbf{strcpy} no chequea por \textit{buffer overflows} cuando copia a destino, y es por esto, que su uso es considerado peligroso para muchos\cite{MSSDLBanned} (a pesar de que estos chequeos se puedan realizar manualmente).
@@ -92,7 +101,7 @@ Se recomendó considerar utilizar un abordaje diferente que no utilice un intér
 
 \begin{lstlisting}[language=c++]
 if (_path.length() >= sizeof(sockaddr_un::sun_path))
-    BOOST_FAIL("Error opening IPC: socket path is too long!");
+    BOOST_FAIL(``Error opening IPC: socket path is too long!");
 
 struct sockaddr_un saun;
 memset(&saun, 0, sizeof(sockaddr_un));
@@ -117,7 +126,7 @@ La descripción de los problemas son directas, con un seguimiento a su estado ac
 
 Se recomendó considerar la implementación de correcciones lo más pronto posible, particularmente para problemas que han sido compartidos públicamente.\\
 
-\textbf{Actualidad:} Comentario del equipo de Solidity: "Los dos restantes requieren la eliminación de funciones del idioma programado para la versión 0.6.0". SOL-005 fue solucionado en \textbf{\#3324}.\\
+\textbf{Actualidad:} Comentario del equipo de Solidity: ``Los dos restantes requieren la eliminación de funciones del idioma programado para la versión 0.6.0". SOL-005 fue solucionado en \textbf{\#3324}.\\
 
 \subsection{Salud de proyecto}
 Una verificación del estado de salud del proyecto permite al equipo dar un paso atrás en la ejecución diaria de tareas para evaluar el estado real del proyecto de una manera objetiva. Los beneficios de realizar una verificación de salud del proyecto incluyen: Identificar los problemas antes de que ocurran, lo que puede ahorrar mucho tiempo y dinero.
@@ -135,7 +144,7 @@ Se recomendó realizar cambios disruptivos (\textit{breaking changes}) al correg
 \textbf{Actualidad:} La versión v0.5.0 introdujo breaking changes para estas cuestiones.
 
 \subsubsection{El bus factor es de 2.}
-Se conoce como \textit{bus factor} a "la mínima cantidad de miembros de un equipo que tienen que desaparecer repentinamente de un proyecto para que el proyecto colapse debido a la falta de personal competente o con entendimiento." (traducido de Wikipedia\cite{WikiBusFactor}). Un factor de bus bajo expone al proyecto a muchos riesgos y hace que el desarrollo sea más lento, mientras que un factor de bus más alto muestra una comunidad más acogedora que difunde el conocimiento y ayuda a los nuevos miembros a asumir responsabilidades y sentirse parte del proyecto. Con solo dos mantenedores activos\cite{GHContributors}, el factor bus de Solidity es muy bajo. Se requiere un factor de bus más alto para la sostenibilidad a largo plazo del proyecto.\\
+Se conoce como \textit{bus factor} a ``la mínima cantidad de miembros de un equipo que tienen que desaparecer repentinamente de un proyecto para que el proyecto colapse debido a la falta de personal competente o con entendimiento." (traducido de Wikipedia\cite{WikiBusFactor}). Un factor de bus bajo expone al proyecto a muchos riesgos y hace que el desarrollo sea más lento, mientras que un factor de bus más alto muestra una comunidad más acogedora que difunde el conocimiento y ayuda a los nuevos miembros a asumir responsabilidades y sentirse parte del proyecto. Con solo dos mantenedores activos\cite{GHContributors}, el factor bus de Solidity es muy bajo. Se requiere un factor de bus más alto para la sostenibilidad a largo plazo del proyecto.\\
 
 Se recomendó considerar la posibilidad de asesorar a algunos de los contribuidores frecuentes actuales para ayudarlos a convertirse en mantenedores. Ellos pueden, a su vez, ayudar a obtener más colaboradores al documentar sus aprendizajes, reportar problemas para las partes del proceso que son demasiado complicados y difundir la información sobre las buenas maneras de involucrarse.\\
 
@@ -199,10 +208,10 @@ Un estilo de código coherente es esencial para que el código base sea claro y 
 
 Considere hacer que todos los archivos del proyecto sigan la guía de estilo de código documentada\cite{SolidityStyleGuide} e imponer que cada contribución nueva se adhiera a este estilo de código agregando una comprobación con \textit{linters} que se ejecuten en cada \textit{pull request}.\\
 
-\textbf{Actualidad:} El equipo de Solidity respondió: \textit{"Hemos comenzado a agregar algunas comprobaciones. El problema principal es que las personas externas no entienden cuándo o por qué fallan las pruebas de estilo de código, tenemos que hacerlo más visible"}. La discusión continúa en el issue \textbf{\#5241\cite{GHI5241}}.\\
+\textbf{Actualidad:} El equipo de Solidity respondió: \textit{``Hemos comenzado a agregar algunas comprobaciones. El problema principal es que las personas externas no entienden cuándo o por qué fallan las pruebas de estilo de código, tenemos que hacerlo más visible"}. La discusión continúa en el issue \textbf{\#5241\cite{GHI5241}}.\\
 
 \subsubsection{Es muy difícil realizar pruebas localmente.}
-A pesar de que la sección de "Ejecución de las pruebas del compilador"\cite{SolidityContributingTests} es muy detallada y clara, la ruta "feliz" para ejecutar todas las pruebas con éxito es muy frágil y es casi imposible de lograr en muchos sistemas operativos / distribuciones comunes (Manjaro, Archlinux, Mint 18 Sarah, Ubuntu Xenial y Bionic, etc). El script de prueba a menudo demora indefinidamente de manera silenciosa en las pruebas de \verb|cpp-ethereum|, y no está claro cuándo se completó con éxito el conjunto de pruebas o si algo salió mal.\\
+A pesar de que la sección de ``Ejecución de las pruebas del compilador"\cite{SolidityContributingTests} es muy detallada y clara, la ruta ``feliz" para ejecutar todas las pruebas con éxito es muy frágil y es casi imposible de lograr en muchos sistemas operativos / distribuciones comunes (Manjaro, Archlinux, Mint 18 Sarah, Ubuntu Xenial y Bionic, etc). El script de prueba a menudo demora indefinidamente de manera silenciosa en las pruebas de \verb|cpp-ethereum|, y no está claro cuándo se completó con éxito el conjunto de pruebas o si algo salió mal.\\
 
 Las pruebas no funcionan con ninguna versión de \verb|cpp-ethereum| y la documentación se vincula a un binario específico de \verb|cpp-ethereum| sin ninguna explicación particular de por qué se requiere esta versión.\\
 
@@ -210,7 +219,7 @@ Estos problemas pueden disuadir a alguien que desea contribuir al proyecto y ver
 
 Se recomendó considerar los siguientes puntos para mejorar la experiencia del desarrollador con respecto a las pruebas:
 \begin{itemize}
-  \item Asegurar que la guía "ejecución de las pruebas del compilador" funcione en todas las plataformas compatibles y establezca cuáles son las compatibles.
+  \item Asegurar que la guía ``ejecución de las pruebas del compilador" funcione en todas las plataformas compatibles y establezca cuáles son las compatibles.
   \item Definir claramente qué salida se espera para una ejecución exitosa del 100\% del conjunto de pruebas.
   \item Proporcionar más información sobre la versión particular de \verb|cpp-ethereum| requerida para las pruebas.
 \end{itemize}
@@ -220,7 +229,7 @@ Se recomendó considerar los siguientes puntos para mejorar la experiencia del d
 \subsection{Problemas en torno a la compilación del proyecto}
 
 \subsubsection{La construcción en algunas distribuciones de Linux falla.}
-Cuando se trata de construir en Linux, la documentación simplemente indica que se admiten "numerosas distribuciones de Linux"\cite{SolidityRTDExternalDeps}. Cuando se construye en una distribución que no es muy común para los contribuyentes de Solidity, se espera que surjan algunos problemas en el camino. Por ejemplo, a pesar de que el \textit{script} \verb|install_deps.sh|\cite{SolidityScriptInstallDeps} tiene la capacidad de apuntar a \textit{Archlinux}, no reconoce a \textit{Manjaro Linux} como una distribución \textit{Arch}, lo que da como resultado una distribución de Linux no admitida o no identificada.\\
+Cuando se trata de construir en Linux, la documentación simplemente indica que se admiten ``numerosas distribuciones de Linux"\cite{SolidityRTDExternalDeps}. Cuando se construye en una distribución que no es muy común para los contribuyentes de Solidity, se espera que surjan algunos problemas en el camino. Por ejemplo, a pesar de que el \textit{script} \verb|install_deps.sh|\cite{SolidityScriptInstallDeps} tiene la capacidad de apuntar a \textit{Archlinux}, no reconoce a \textit{Manjaro Linux} como una distribución \textit{Arch}, lo que da como resultado una distribución de Linux no admitida o no identificada.\\
 
 Dado que las pruebas de CI para Linux solo se realizan en Ubuntu, depende de los contribuyentes con otras distribuciones descubrir estos errores, lo que se traduce en una experiencia terrible para el desarrollador y podría alejar a los posibles contribuyentes valiosos.\\
 
@@ -249,27 +258,27 @@ Hay varias instancias en las que las variables de entorno se utilizan en las pru
 
 \verb|/test/tools/isoltest.cpp:312|
 \begin{lstlisting}[language=c++]
-if (getenv("EDITOR"))
-    SyntaxTestTool::editor = getenv("EDITOR");
+if (getenv(``EDITOR"))
+    SyntaxTestTool::editor = getenv(``EDITOR");
 \end{lstlisting}
 
 \verb|/test/Options.cpp:67|
 \begin{lstlisting}[language=c++]
 if (!disableIPC && ipcPath.empty())
-    if (auto path = getenv("ETH_TEST_IPC"))
+    if (auto path = getenv(``ETH_TEST_IPC"))
         ipcPath = path;
 \end{lstlisting}
 
 \verb|/test/Options.cpp:70|
 \begin{lstlisting}[language=c++]
 if (testPath.empty())
-    if (auto path = getenv("ETH_TEST_PATH"))
+    if (auto path = getenv(``ETH_TEST_PATH"))
         testPath = path;
 \end{lstlisting}
 
 Se recomendó considerar revisar cuidadosamente las variables de entorno antes de usarlas. Por ejemplo, si se espera una ruta, verificar que sea realmente una ruta antes de usar esa variable.\\
 
-\textbf{Actualidad:} El equipo de Solidity respondió: \textit{"Como se explica en el otro issue, no creemos que tenga ningún valor protegerse contra un atacante que tenga control sobre las variables del entorno"}.\\
+\textbf{Actualidad:} El equipo de Solidity respondió: \textit{``Como se explica en el otro issue, no creemos que tenga ningún valor protegerse contra un atacante que tenga control sobre las variables del entorno"}.\\
 
 \subsection{Problemas entorno al diseño del compilador}
 
@@ -386,7 +395,7 @@ Es bastante común que los desarrolladores declaren un modificador y anulen invo
 
 Se recomendó considerar agregar una palabra clave como \texttt{override}, con una sintaxis similar a la de C++11\cite{CppReferenceOverride}. Esto asegurará que las modificaciones del modificador sean siempre explícitas, tanto para los desarrolladores como para los revisores de códigos.\\
 
-\textbf{Actualidad:} El equipo de Solidity respondió: \textit{"Hay varios problemas al respecto. Probablemente se arreglará en v0.6.0"}. Hubo un intento de solucionar el inconveniente en \textbf{PR\#3737}\cite{GHPR3737}, y continúa en etapa pendiente para testear con la versión v0.6.0. Ver \textit{issues} \textbf{\#2563}\cite{GHI2563} y \textbf{\#973}\cite{GHI973}.\\
+\textbf{Actualidad:} El equipo de Solidity respondió: \textit{``Hay varios problemas al respecto. Probablemente se arreglará en v0.6.0"}. Hubo un intento de solucionar el inconveniente en \textbf{PR\#3737}\cite{GHPR3737}, y continúa en etapa pendiente para testear con la versión v0.6.0. Ver \textit{issues} \textbf{\#2563}\cite{GHI2563} y \textbf{\#973}\cite{GHI973}.\\
 
 \subsubsection{Las variables de estado se pueden ver opacadas por otras.}
 
@@ -433,7 +442,7 @@ Si bien la herencia es muy conveniente para diseñar funcionalidades de forma mo
 
 Se recomendó considerar agregar una palabra clave \texttt{final} o \texttt{sealed} que deshabilite los reemplazos para funciones y modificadores, causando un error del compilador si se hace un intento de modificarlos.\\
 
-\textbf{Actualidad:} el equipo de Solidity respondió: \textit{"Probablemente sea mejor requerir una palabra clave como \texttt{virtual} si una función puede ser modificada por un contrato derivado y el valor predeterminado debe ser sealed. Esto se solucionará con la limpieza de herencia para v0.6.0"}\cite{GHProject9}. Ver \textit{issue} \textbf{\#5424}\cite{GHI5424}.\\
+\textbf{Actualidad:} el equipo de Solidity respondió: \textit{``Probablemente sea mejor requerir una palabra clave como \texttt{virtual} si una función puede ser modificada por un contrato derivado y el valor predeterminado debe ser sealed. Esto se solucionará con la limpieza de herencia para v0.6.0"}\cite{GHProject9}. Ver \textit{issue} \textbf{\#5424}\cite{GHI5424}.\\
 
 \subsubsection{Se permiten secuencias UTF-8 no válidas en los comentarios.}
 
@@ -453,7 +462,7 @@ Se recomendó considerar el aumento de la cobertura del código de optimización
 
 Luego, considerar animar a los desarrolladores a contribuir con Solidity al habilitar estas optimizaciones en las compilaciones de sus proyectos.\\
 
-\textbf{Actualidad:} el equipo de Solidity respondió: \textit{"Todas las pruebas semánticas se ejecutan con el optimizador activado y el optimizador desactivado. Además, todos ellos se ejecutan en combinación con varias versiones de la EVM"}.\\
+\textbf{Actualidad:} el equipo de Solidity respondió: \textit{``Todas las pruebas semánticas se ejecutan con el optimizador activado y el optimizador desactivado. Además, todos ellos se ejecutan en combinación con varias versiones de la EVM"}.\\
 
 \subsubsection{El código de las optimizaciones en el assembler (libevmasm) es difícil de leer.}
 
@@ -469,7 +478,7 @@ Se recomendó considerar la posibilidad de refactorizar estos archivos utilizand
 
 Cualquier escritura en una referencia de un \textit{uninitialized \texttt{storage} reference} (almacenamiento no inicializada) puede sobrescribir el estado, ya que las referencias siempre tendrán un valor predeterminado. Esto, combinado con el hecho de que los tipos de referencia apuntan al \texttt{storage} por defecto, hace que sea muy fácil escribir código que se vea bien para un no experto, pero que en realidad contenga un error grave o un \textit{backdoor}.\\
 
-En el siguiente contrato, aunque foo no accede directamente a "a", lo modifica, y será igual a 3 después de llamar a foo (porque la longitud de "b" lo sobrescribirá).\\
+En el siguiente contrato, aunque foo no accede directamente a ``a", lo modifica, y será igual a 3 después de llamar a foo (porque la longitud de ``b" lo sobrescribirá).\\
 
 \begin{lstlisting}[language=Solidity]
 pragma solidity ^0.4.24;
@@ -558,14 +567,14 @@ contract ConstructorThis {
 \end{lstlisting}
 
 \begin{lstlisting}
-Warning: "this" used in constructor. Note that external functions of a contract cannot be called while it is being constructed.
+Warning: ``this" used in constructor. Note that external functions of a contract cannot be called while it is being constructed.
 	this.foo();
   ^--^
 \end{lstlisting}  
 
 Se recomendó considerar hacer de esta advertencia un error para indicar mejor que este uso del idioma es incorrecto.\\
 
-\textbf{Actualidad:} el equipo de Solidity respondió: \textit{"Hay que tener en cuenta que el uso de \texttt{'this.f'} sigue siendo válido en el constructor y tiene un caso de uso específico: enviar una función a otro contrato como un mecanismo de devolución de llamada"}.\\
+\textbf{Actualidad:} el equipo de Solidity respondió: \textit{``Hay que tener en cuenta que el uso de \texttt{'this.f'} sigue siendo válido en el constructor y tiene un caso de uso específico: enviar una función a otro contrato como un mecanismo de devolución de llamada"}.\\
 
 \subsubsection{No hay advertencia para \textit{dead code} (código muerto).}
 
@@ -614,7 +623,7 @@ El analizador no detecta una variable previamente declarada cuando declara una n
 Código de ejemplo:
 \begin{lstlisting}[language=Solidity]
 pragma solidity ^0.4.24;
-pragma experimental "v0.5.0";
+pragma experimental ``v0.5.0";
 contract CrashContract {     
   function f() view public {
     int variableDefinedTwice;
@@ -647,7 +656,7 @@ contract CrashContract {
 
 \texttt{fuzzer.cpp} y su resultante, \texttt{solfuzzer}, tienen nombres contraintuitivos: \texttt{solfuzzer} es un punto de entrada para AFL u otros \textit{fuzzers} que funcionan con instrumentación, pero no es un \textit{fuzzer} por sí solo. Esto puede hacer que los usuarios piensen que están aplicando \textit{fuzzing} cuando en realidad no lo están.\\
 
-La sección de documentación también se titula \textit{"Ejecutando el Fuzzer a través de AFL"}\cite{ReadTheDocsSolidityAFL}; pero AFL en sí es el \textit{fuzzer}, no el binario compilado.\\
+La sección de documentación también se titula \textit{``Ejecutando el Fuzzer a través de AFL"}\cite{ReadTheDocsSolidityAFL}; pero AFL en sí es el \textit{fuzzer}, no el binario compilado.\\
 
 Se recomendó considerar el cambio de el nombre del punto de entrada a algo que transmita claramente su propósito.\\
 
@@ -656,7 +665,7 @@ Se recomendó considerar el cambio de el nombre del punto de entrada a algo que 
 
 \subsubsection{El ejemplo de la documentación respecto a AFL no funciona.}
 
-Las pruebas de \textit{aislamiento}, como se muestra en la sección \textit{"Contribuyendo sobre fuzzing"}\cite{ReadTheDocsSolidityContributingFuzzing}, no funcionan. El script \texttt{isolate\_tests.py}\cite{GHisolatetests} funciona con directorios como se usa en los scripts de prueba, pero no acepta archivos individuales como forma de entrada tal como se muestra en los ejemplos.\\
+Las pruebas de \textit{aislamiento}, como se muestra en la sección \textit{``Contribuyendo sobre fuzzing"}\cite{ReadTheDocsSolidityContributingFuzzing}, no funcionan. El script \texttt{isolate\_tests.py}\cite{GHisolatetests} funciona con directorios como se usa en los scripts de prueba, pero no acepta archivos individuales como forma de entrada tal como se muestra en los ejemplos.\\
 
 Se recomendó considerar arreglar el script \texttt{isolate\_tests.py} para que pueda aceptar archivos individuales.\\
 
@@ -853,7 +862,7 @@ El compilador se bloquea si un tipo racional de más de 78 dígitos está presen
 pragma solidity ^0.4.24;
 contract CrashContract {
   function f() returns (string) {
-        return (["zeppelin"][123456789012345678901234567890123456789012345678901234567890123456789012345678]);
+        return ([``zeppelin"][123456789012345678901234567890123456789012345678901234567890123456789012345678]);
   }
 }
 \end{lstlisting}

@@ -186,7 +186,7 @@ Cuando se tiene que comenzar con el proceso de revisar, desde la perspectiva de 
 
 Adoptando un proceso pragmático, flexible y basado en resultados se podrá obtener un balance para descubrir fallas de diseño, lógicas, operacionales y de implementación.
 
-Hay dos frases que se destacan mucho de uno de los libros más importantes que he el autor ha tenido la oportunidad de leer en esta investigación, y son \textit{"la revisión de código es un proceso fundamentalmente creativo"}, y \textit{"hacer revisión de código es una habilidad"}. 
+Hay dos frases que se destacan mucho de uno de los libros más importantes que he el autor ha tenido la oportunidad de leer en esta investigación, y son \textit{``la revisión de código es un proceso fundamentalmente creativo"}, y \textit{``hacer revisión de código es una habilidad"}. 
 
 Entendiendo esto entonces, la mejor manera de realizarlo es armando una lista de todo lo que probablemente pueda salir mal, y al hacer la revisión tratar de entender al desarrollador pensando en situaciones que no haya podido anticipar. Es una especie de estudio del perfil (profiling) del equipo de desarrollo, y entender que no sólo pueden tener fallas a nivel código sino también conceptuales que en el mismo proyecto pueden traer consecuencias a la forma de encarar otras partes del mismo proyecto, o futuros. Por ejemplo, puede que para un \textit{input} (entrada) de usuario no se estén realizando los chequeos necesarios pero que no tenga ningún impacto real de seguridad; lo que no significa que en otros lugares del mismo proyecto esté aplicado de una forma diferente, pudiendo así explotar finalmente la falla, ya que ha sido conceptual o de diseño.
 
@@ -511,11 +511,11 @@ La seguridad informática es un desafío bastante amplio impuesto sobre el siste
 
 Lo describe claramente Ken Thompson, desde 1984 en su artículo \textbf{Reflections on trusting trust} (reflecciones en confiar en la confianza):
 \begin{displayquote}
-    \textit{"La moral es obvia. No podés confiar en un código que no creaste en su totalidad. (Especialmente el código de compañías que emplean a personas como yo). Ninguna verificación o escrutinio a nivel de fuente te protegerá de usar código no confiable. Al demostrar la posibilidad de este tipo de ataque, elegí el compilador de C. Podría haber elegido cualquier programa de manejo de software, como un ensamblador, un cargador o incluso un microcódigo de hardware. A medida que el nivel del programa disminuye, estos errores serán cada vez más difíciles de detectar. Un bug de microcódigo bien instalado será casi imposible de detectar."}
+    \textit{``La moral es obvia. No podés confiar en un código que no creaste en su totalidad. (Especialmente el código de compañías que emplean a personas como yo). Ninguna verificación o escrutinio a nivel de fuente te protegerá de usar código no confiable. Al demostrar la posibilidad de este tipo de ataque, elegí el compilador de C. Podría haber elegido cualquier programa de manejo de software, como un ensamblador, un cargador o incluso un microcódigo de hardware. A medida que el nivel del programa disminuye, estos errores serán cada vez más difíciles de detectar. Un bug de microcódigo bien instalado será casi imposible de detectar."}
     \newline{\null\hfill -- Ken Thompson}
 \end{displayquote}
 
-El "ataque" del cual habla está separado en dos etapas, y consta de cómo hipotéticamente modifica un compilador para generar backdoors (puertas traseras). En la primera etapa, el código en C contiene código visiblemente obvio para modificar la lógica dado un patrón determinado, de un programa de acceso, y como bien dice:
+El ``ataque" del cual habla está separado en dos etapas, y consta de cómo hipotéticamente modifica un compilador para generar backdoors (puertas traseras). En la primera etapa, el código en C contiene código visiblemente obvio para modificar la lógica dado un patrón determinado, de un programa de acceso, y como bien dice:
 \textit{Tal descarado código no pasaría desapercibido por mucho tiempo. Incluso la lectura más casual del código fuente del compilador de C levantaría sospechas.}
 
 En la segunda etapa es donde la modificación de un compilador con fines maliciosos se pone interesante. En adición a agregar código al compilador de C para corromper un programa en particular también agrega código al compilador para corromperse a sí mismo. Es decir, que si se compilara con ese compilador maligno otro compilador en base a un código limpio, se agregaría la lógica necesaria al nuevo compilador para que cada vez que procese un software de acceso le inserte un \textit{backdoor}.
@@ -577,7 +577,7 @@ Diez años antes de las \textit{cryptocurrencies}, el concepto había sido intro
 En el 2008 Satoshi Nakamoto publicó un artículo (\textit{white paper}) llamado \textit{Bitcoin: A Peer-to-Peer Electronic Cash System}, describiendo la funcionalidad de la red blockchain de Bitcoin: \textit{una red sin permiso tolerante a fallos bizantinos} (resistencia de un sistema informático tolerante a faltas) \textit{criptográficamente segura}.
 
 \begin{displayquote}
-    \textit{"Mucha gente descarta automáticamente las e-currency como una causa perdida por todas las compañías que fallaron hacerlo desde 1990. Espero que sea obvio que lo que las llevó a la perdición fue su naturaleza de tener un sistema central controlado. Creo que esta es la primera vez que estamos intentando un sistema descentralizado, no basado en la confianza."}
+    \textit{``Mucha gente descarta automáticamente las e-currency como una causa perdida por todas las compañías que fallaron hacerlo desde 1990. Espero que sea obvio que lo que las llevó a la perdición fue su naturaleza de tener un sistema central controlado. Creo que esta es la primera vez que estamos intentando un sistema descentralizado, no basado en la confianza."}
     \newline{\null\hfill -- Satoshi Nakamoto.}
 \end{displayquote}
 
@@ -613,7 +613,7 @@ Entonces, se puede resaltar lo más importante de la siguiente manera: son auto 
 En el 2013 un jóven llamado Vitalik Buterin\cite{miethereumvitalik}, co-fundador de la Bitcoin Magazine propuso \textbf{Ethereum} en un paper llamado \textit{‘Ethereum: A Next-Generation Smart Contract and Decentralized Application Platform’}. Preocupado por las limitaciones de Bitcoin, comenzó a trabajar en lo que él pensaba que sería una blockchain maleable que pueda realizar varias funciones además de ser una red punto a punto. Ethereum\cite{101blockchainseth} nació como una nueva blockchain pública con funcionalidades adicionales, en comparación con Bitcoin.
 
 \begin{displayquote}
-\textit{"Bitcoin es excelente como dinero digital, pero su lenguaje de scripting es demasiado débil para que se puedan construir aplicaciones avanzadas de forma seria."}
+\textit{``Bitcoin es excelente como dinero digital, pero su lenguaje de scripting es demasiado débil para que se puedan construir aplicaciones avanzadas de forma seria."}
 \newline{\null\hfill -- Vitalik Buterin}
 \end{displayquote}
 

@@ -1,0 +1,71 @@
+Mientras más avanzamos en el desarrollo de nuevas tecnologías, más difícil se hace la búsqueda de la panacea que permita resolver el problema al todo. Es inevitable el \textit{tradeoff} de querer producir una solución lo suficientemente abstracta aplicable sin perder efectividad, y no parece haber otra opción más asertiva que entender el contexto de cada problema y aplicar su propia solución.
+
+\section{Conclusiones del trabajo realizado} 
+En esta tesis se ha mostrado cómo fue posible realizar una auditoría de un software, como es caso del compilador del lenguaje de \textit{smart contracts} más utilizado en el momento, \textit{Solidity}, partiendo de un conjunto de conceptos teóricos, utilizando metodologías y tecnologías relacionadas con con área de lenguajes y compiladores, sistemas operativos, seguridad informática, arquitecturas de hardware, programación, ingeniería de software en sus aspectos de metodologías de desarrollo, calidad, testing y documentación entre otras.\\
+
+Todos los conocimientos de las áreas mencionadas de la carrera de Ingeniería de Sistemas se han aplicado en forma conjunta y sinérgica para lograr los objetivos planteados.\\
+
+Además, este trabajo sirvió para comprobar cuántas áreas de la disciplina se encuentran tratadas adecuadamente en un producto de software y los motivos pragmáticos por lo que eso no sucede en ciertos casos.\\
+
+\section{Conclusiones de la auditoría en seguridad en general}
+
+\subsection{Automatización como respuesta}
+La mejor herramienta que permitió tener un acercamiento efectivo al realizar una auditoría de software, más particularmente a un compilador, DeepSmith (\ref{ref:deepsmith}), fue mediante el uso de inteligencia artificial. Parece ser la más avanzada del estado del arte, no obstante, no es fácil de configurar, no es fácil de entrenar, y no es trivial de adaptar a cualquier proyecto.\\
+
+Es inevitable hacerse preguntas como \textit{¿por qué siempre se introduce al fuzzing como una herramienta crucial en auditorías?}, o \textit{¿es realmente la única opción como herramienta?}\\
+
+Las respuestas parecen ser obvias cuando no se posee perspectiva de seguridad desde el comienzo de un proyecto. Es tentador recaer a herramientas del estilo cuando se observan increíbles ventajas a la hora de testear aplicando seguridad. Particularmente si siendo desarrollador se comparan estrategias de \textit{fuzzing} con \textit{unit testing}. En la tabla \ref{tab:fuzzing} se resume la evolución de las soluciones de testeo para algunos aspectos de la auditoría de un proyecto como el de esta tesis. \\
+
+\begin{table}
+\begin{tabular}{|p{4.3cm}|p{3cm}|p{3cm}|p{3cm}|}
+    \hline
+    Atributo & \textbf{Unit testing} & \textbf{Primeros fuzzers} & \textbf{Fuzzers actuales} \\
+    \hline
+    Testear pequeñas partes de código & $\surd$ & X & $\surd$ \\
+    \hline
+    Se puede automatizar & $\surd$ & $\surd$ & $\surd$\\
+    \hline
+    Test de regresión & $\surd$ & $\surd$/X & $\surd$\\
+    \hline
+    Fácil de escribir & $\surd$ & X & $\surd$\\
+    \hline
+    Buscar nuevos bugs & $\surd$/X & $\surd$$\surd$$\surd$ & $\surd$$\surd$$\surd$$\surd$$\surd$$\surd$\\
+    \hline
+    Buscar vulnerabilidades & X & $\surd$ & $\surd$\\
+    \hline
+\end{tabular}
+\label{tab:fuzzing}
+\end{table}
+
+\subsubsection{La seguridad en el SDLC}
+Sin ir más lejos, por más que exista la herramienta perfecta, el factor humano siempre es necesario. Mientras humanos sean quienes desarrollan los proyectos que requieran de una auditoría, se necesitarán metodologías y procesos que permitan tener respuestas más humanas.\\
+
+La falla está en tratar a la seguridad como un adicional, como un feature que se puede incorporar después. La clave está en integrar lo antes posible. Sin ir más lejos, uno de los libros más acertados de la época \textbf{Accelerate: Building and scaling high performing technology organizations}\cite{forsgren2018accelerate}, basándose en estudios a miles de empresas y un seguimiento a través de los años, lo presenta claramente en uno de sus capítulos, \textit{Shifting left to security} (desplazando la seguridad hacia la izquierda). Estos autores descubrieron que cuando los equipos \textit{desplazan a la izquierda} a la seguridad informática, es decir, cuando lo integran en el SDLC en lugar de convertirlo en una fase separada que ocurre más adelante del proceso de desarrollo, esto impacta positivamente en el \textit{delivery performance} (rendimiento de la entrega). En este punto conviene transcribir un fragmento de los autores\\
+
+\textsf{¿Qué implica ``desplazar a la izquierda"? Primero, se realizan revisiones de seguridad para todas las funciones principales, y este proceso de revisión se realiza de tal manera que no ralentiza el proceso de desarrollo. ¿Cómo se puede garantizar que prestar atención a la seguridad no reduzca el rendimiento del desarrollo? Este es el enfoque del segundo aspecto de esta capacidad: la seguridad de la información debe integrarse en todo el ciclo de vida de entrega del software desde el desarrollo hasta las operaciones. Esto significa que los expertos de seguridad deben contribuir al proceso de diseño de aplicaciones, asistir y proporcionar comentarios sobre las demostraciones del software, y garantizar que las características de seguridad se prueben como parte del conjunto de pruebas automatizadas. Finalmente, hay que facilitar a que los desarrolladores hagan lo correcto en este aspecto. Esto se puede lograr asegurando que haya bibliotecas, paquetes, cadenas de herramientas y procesos preprogramados y fáciles de consumir disponibles para los desarrolladores y las operaciones de IT.}\\
+
+\textsf{Lo que se observa aquí es un cambio de los equipos de seguridad que realizan las revisiones de seguridad ellos mismos, a proveer a los desarrolladores los medios para construir su propia seguridad. Esto refleja dos realidades: Primero, es mucho más fácil asegurarse de que las personas que construyen el software están haciendo lo correcto que inspeccionar los sistemas y características casi completos para encontrar problemas y defectos arquitectónicos significativos que impliquen una revisión sustancial. En segundo lugar, los equipos de seguridad simplemente no tienen la capacidad de realizar revisiones de seguridad cuando las implementaciones son frecuentes. En muchas organizaciones, la seguridad y el cumplimiento es un cuello de botella significativo para llevar los sistemas de ``desarrollo completo" a la vida. Involucrar a profesionales de Infosec en todo el proceso de desarrollo también tiene el efecto de mejorar la comunicación y el flujo de información, un objetivo fundamental de DevOps.}\\
+
+\textsf{Cuando la creación de seguridad en el software forma parte del trabajo diario de los desarrolladores, y cuando los equipos de infosec proporcionan herramientas, capacitación y soporte para facilitar a los desarrolladores hacer lo correcto, el rendimiento de la entrega mejora. Además, esto tiene un impacto positivo en la seguridad. Descubrieron que las empresas de alto rendimiento gastaban un 50\% menos de tiempo en solucionar problemas de seguridad que las de bajo rendimiento. En otras palabras, en lugar de preocuparse al final, al incorporar la seguridad en su trabajo diario, terminaron dedicando muchísimo menos tiempo a abordar esos problemas.}
+
+\subsection{Caso de estudio}
+Hay una diferencia crucial entre aplicar mecanismos de seguridad y tener la certeza que un sistema \textit{\textbf{es seguro}} en términos de seguridad informática, valga la redundancia.\\
+
+El costo en recursos de tiempo, capacitación y dinero que se deben invertir para contratar una empresa tercera para realizar tareas de este estilo, es altísimo. Más cuando se posee la posibilidad de incorporar a profesionales con perspectivas de seguridad al equipo desde las primeras iteraciones del proyecto, o incluso capacitar a los desarrolladores principales para ir aplicando técnicas de seguridad incrementalmente.\\
+
+Aún así, es difícil adquirir este pensamiento lateral. Un ejemplo con el caso de estudio puede observarse en el siguiente comentario\cite{GHI5212:429777270} luego de que un miembro activo de la comunidad provee la posibilidad de integrar un nuevo setup de fuzzing, la respuesta de unos de los desarrolladores de Solidity fue:\\
+
+\textit{'Estaría encantado de ver tal integración, pero hay que tener en cuenta que fuzzear el compilador no va a encontrar ningún problema crítico. [..] En el mejor de los casos, puede encontrar problemas de memoria como desreferencia de punteros nulos.'}\\
+
+En este ejemplo puntual están minimizando un problema de manejo de memoria porque su impacto \textit{``no es más que la detención abrupta del compilador"}.\\
+
+Abstrayendo esto mismo, y mirando al compilador como un servicio, no les parece menor que su servicio se detenga inesperadamente en medio de su ejecución. 
+Lo mismo se podría decir para la discusión respecto al problema reportado de la manipulación de las variables de entorno \texttt{(\$EDITOR)}:\\
+
+\textit{'El código respectivo nunca se ejecutará en escenarios de producción y solo se ejecutará de forma interactiva; no tiene sentido usarlo automáticamente o sin la interacción del usuario.'}\\
+
+No trabajar un potencial problema de seguridad, que además es trivial de solucionar, con la excusa de que nunca ocurrirá el caso en el que pueda ser abusado, es dejar código propenso a que sea explotado en el futuro.\\
+
+Esto valida que incluso los equipos que desean aplicar seguridad, por más que trabajen en conjunto con expertos en el área, no van a modificar su perspectiva de un día para el otro.\\
+
+\textit{Es inminente la necesidad de concientizar y entender a la seguridad como algo que debería pertenecer al ciclo del desarrollo del software.}

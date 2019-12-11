@@ -7,7 +7,9 @@
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage{csquotes}
-\usepackage{quoting}
+\usepackage[spanish]{babel}
+\usepackage[dvipsnames]{xcolor}
+% \usepackage{quoting}
 \pagestyle{fancy}
 \fancyhead{}
 \fancyhead[RO,LE]{
@@ -32,7 +34,7 @@
 
 \input{titlepage}
 
-% \input{abstract}
+\input{abstract}
  
 % \chapter*{Dedicación}
 % Quiero dedicarle la tésis particularmente a mis padres, en principal a mi madre Silvia Medina.
@@ -40,41 +42,34 @@
 % \chapter*{Agradecimientos}
 % Me gustaría agradecerle a los que me acompañaron a lo largo de las investigaciones
 % que desarrollé, dentro de mi inconformidad, hasta dar con esta que terminaría siendo mi tésis.
-% Sebastián Fernández, Patricio Palladino, Iñaki Berra, Mariano Cocirio, Coni, Viole.
  
 \tableofcontents
 
 
-% \chapter{Introducción}
-% \input{chapters/ch01}
-% \chapter{Marco teórico}
-% \input{chapters/ch02}
-% \chapter{Estado del arte}
-% \input{chapters/ch03}
-% \chapter{Método propuesto}
-% \input{chapters/ch04}
+\chapter{Introducción}
+\input{chapters/ch01}
+\label{chap:introduccion}
+\chapter{Marco teórico}
+\input{chapters/ch02}
+\label{chap:marco}
+\chapter{Estado del arte}
+\input{chapters/ch03}
+\label{chap:estado}
+\chapter{Método propuesto}
+\input{chapters/ch04}
+\label{chap:metodo}
 \chapter{Resultados}
 \input{chapters/ch05}
-
+\label{chap:resultados}
+\chapter{Trabajo futuro}
+\input{chapters/ch06}
+\label{chap:trabajo}
+\chapter{Conclusiones}
+\input{chapters/ch07}
+\label{chap:conclusiones}
+\appendix
+\chapter{Coinspect Audit Recheck Detalles}
+\input{chapters/appendixA}
 \printbibliography
 \end{document}
 
-
-
-
-
-
-
-
-% \chapter{Trabajo futuro}
-% \input{chapters/ch06}
-
-% \chapter{Conclusiones}
-% \input{chapters/ch07}
-
-% \chapter{Bibliografía}
-% \input{chapters/ch08}
-
-% \appendix
-% \chapter{Apéndice A}
-% \input{chapters/appendixA}

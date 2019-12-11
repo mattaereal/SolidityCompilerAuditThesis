@@ -1,26 +1,27 @@
+
 \section{Prólogo}
-Considerando que el mundo de la tecnología informática es un campo relativamente nuevo, que día a día crece exponencialmente, hay que destacar que dentro de él también se encuentran campos como el de la seguridad informática, que son mucho más recientes.
+Considerando que el mundo de la tecnología informática es un campo relativamente nuevo, que día a día crece exponencialmente, hay que destacar que dentro de él también se encuentran campos como el de la seguridad informática, que son mucho más recientes.\\
 
 La explotación de vulnerabilidades existentes y nuevas permite el acceso no autorizado a los bienes de una empresa, siendo un problema de seguridad muy grave. \textit{Una gran proporción de todos los incidentes de seguridad de software son causados por atacantes que explotan vulnerabilidades conocidas.}\cite{sectesting}
 
 \begin{displayquote}
-\textit{"Romper algo es más fácil que diseñar algo que no se puede romper."}
+\textit{Romper algo es más fácil que diseñar algo que no se puede romper.}
 \newline{\null\hfill -- Gary McGraw}
 \end{displayquote}
 
-Por eso es fundamental que se realice la comprobación de las aplicaciones, redes, sistemas nuevos y ya presentes, en búsqueda de vulnerabilidades para asegurarse que nadie sin acceso autorizado haya accedido previamente ni lo haga en el futuro. 
+Por eso es fundamental que se realice la comprobación de las aplicaciones, redes, sistemas nuevos y ya presentes, en búsqueda de vulnerabilidades para asegurarse que nadie sin acceso autorizado haya accedido previamente ni lo haga en el futuro.\\
 
-Los análisis de seguridad comúnmente no llegan a cubrir el total de la infraestructura de una empresa. Hay dos principales razones por las cuales esto sucede: la inmensidad de las mismas y los plazos breves de tiempo disponibles para el trabajo\cite{krypsys}\cite{specopssoft}\cite{crest}\cite{notsosecure}. No obstante, los mecanismos utilizados son efectivos, lo suficiente como para identificar vulnerabilidades conocidas, y comprobar cómo un atacante podría acceder a sus sistemas.
+Los análisis de seguridad comúnmente no llegan a cubrir el total de la infraestructura de una empresa. Hay dos principales razones por las cuales esto sucede: la inmensidad de las mismas y los plazos breves de tiempo disponibles para el trabajo\cite{krypsys}\cite{specopssoft}\cite{crest}\cite{notsosecure}. No obstante, los mecanismos utilizados son efectivos, lo suficiente como para identificar vulnerabilidades conocidas, y comprobar cómo un atacante podría acceder a sus sistemas.\\
 
-Las técnicas de testeo empleadas en el ciclo de vida del desarrollo seguro de un software se pueden distinguir en cuatro categorías: \textbf{(1)} \textit{pruebas de seguridad basadas en modelos que se basan en los requisitos y los modelos de diseño creados durante la fase de análisis y diseño}, \textbf{(2)} \textit{pruebas basadas en código y análisis estático en el código fuente y bytecode creado durante el desarrollo}, \textbf{(3)} \textit{pruebas de penetración y análisis dinámico en sistemas en ejecución, ya sea en un entorno de prueba o producción}, así como \textbf{(4)} \textit{pruebas de regresión de seguridad realizadas durante el mantenimiento}\cite{sectesting}.
-A pesar de que algunos mecanismos eran utilizados específicamente en el mundo de la seguridad informática, \textit{dejando de lado la revisión de código por supuesto}, desarrolladores y DevOps están utilizando cada vez más estrategias como \textit{fuzzing y análisis estático de código} para probar la calidad de su software\cite{accelerate_report}\cite{concepts}.
+Las técnicas de testeo empleadas en el ciclo de vida del desarrollo seguro de un software se pueden distinguir en cuatro categorías: \textbf{(1)} \textit{pruebas de seguridad basadas en modelos que se basan en los requisitos y los modelos de diseño creados durante la fase de análisis y diseño}, \textbf{(2)} \textit{pruebas basadas en código y análisis estático en el código fuente y bytecode creado durante el desarrollo}, \textbf{(3)} \textit{pruebas de penetración y análisis dinámico en sistemas en ejecución, ya sea en un entorno de prueba o producción}, así como \textbf{(4)} \textit{pruebas de regresión de seguridad realizadas durante el mantenimiento}\cite{sectesting}. A pesar de que algunos mecanismos eran utilizados específicamente en el mundo de la seguridad informática, \textit{dejando de lado la revisión de código por supuesto}, desarrolladores y DevOps están utilizando cada vez más estrategias como \textit{fuzzing y análisis estático de código} para probar la calidad de su software\cite{accelerate_report}\cite{concepts}.
 
 \section{Motivación}
-En las carreras universitarias las cuestiones de seguridad no se tratan con profundidad y de una manera enfocada al problema, sino desde los aspectos subyacentes que permiten entender los problemas de seguridad y sus posibles soluciones.  Es por ello que los graduados que decidan dedicarse a la seguridad informática, deben especializarse por su cuenta a través de cursos, o mediante el aprendizaje profesional que se da a través de la resolución de problemáticas de los clientes. 
+En las carreras universitarias las cuestiones de seguridad no se tratan con profundidad y de una manera enfocada al problema, sino desde los aspectos subyacentes que permiten entender los problemas de seguridad y sus posibles soluciones.  Es por ello que los graduados que decidan dedicarse a la seguridad informática, deben especializarse por su cuenta a través de cursos, o mediante el aprendizaje profesional que se da a través de la resolución de problemáticas de los clientes.\\
+
 Esta propuesta surge por un interés personal originado gracias a las materias \textit{Lenguajes de Programación y Diseño de Compiladores}, y al incremento que ha habido últimamente en desarrollo de nuevos lenguajes, que poseen propósitos y contextos distintos\cite{Klabnik:2018:RPL:3271463}\cite{Forsgren:2018:ASL:3235404}.
 
 \subsection{Contexto}
-Los \textit{Smart Contracts}, son programas que poseen una ejecución completamente verificable y observable. Esto permite que exista la certeza de que la ejecución del mismo no pueda ser alterada, abriendo una nueva posibilidad de casos de usos que en las plataformas de cómputo tradicionales no existían.
+Los \textit{Smart Contracts}, son programas que poseen una ejecución completamente verificable y observable. Esto permite que exista la certeza de que la ejecución del mismo no pueda ser alterada, abriendo una nueva posibilidad de casos de usos que en las plataformas de cómputo tradicionales no existían.\\
 
 \textit{Ethereum Network} fue desarrollada para ser una plataforma de Smart Contracts, siendo la primera que posee un lenguaje (del estilo bytecode) con característica \textit{Turing complete} (permite que un el lenguaje pueda llegar a programarse para realizar cualquier tipo de operación) que corre en una máquina virtual llamada \textit{Ethereum Virtual Machine (EVM)}.
 
