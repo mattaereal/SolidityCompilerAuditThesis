@@ -1,11 +1,10 @@
-
 \section{Prólogo}
-Considerando que el mundo de la tecnología informática es un campo relativamente nuevo, que día a día crece exponencialmente, hay que destacar que dentro de él también se encuentran campos como el de la seguridad informática, que son mucho más recientes.\\
+Considerando que el mundo de la tecnología informática es un campo relativamente nuevo, que día a día crece exponencialmente, hay que destacar que dentro de él también se encuentran campos como el de la \textit{seguridad informática}, que son mucho más recientes.\\
 
-La explotación de vulnerabilidades existentes y nuevas permite el acceso no autorizado a los bienes de una empresa, siendo un problema de seguridad muy grave. \textit{Una gran proporción de todos los incidentes de seguridad de software son causados por atacantes que explotan vulnerabilidades conocidas.}\cite{sectesting}
+La explotación de vulnerabilidades existentes y nuevas permite el acceso no autorizado a los bienes de una empresa, siendo un problema de seguridad de alta gravedad. \textit{Una gran proporción de todos los incidentes de seguridad de software son causados por atacantes que explotan vulnerabilidades conocidas.}\cite{sectesting}
 
 \begin{displayquote}
-\textit{Romper algo es más fácil que diseñar algo que no se puede romper.}
+\textit{``Romper algo es más fácil que diseñar algo que no se puede romper."}
 \newline{\null\hfill -- Gary McGraw}
 \end{displayquote}
 
@@ -23,26 +22,27 @@ Esta propuesta surge por un interés personal originado gracias a las materias \
 \subsection{Contexto}
 Los \textit{Smart Contracts}, son programas que poseen una ejecución completamente verificable y observable. Esto permite que exista la certeza de que la ejecución del mismo no pueda ser alterada, abriendo una nueva posibilidad de casos de usos que en las plataformas de cómputo tradicionales no existían.\\
 
-\textit{Ethereum Network} fue desarrollada para ser una plataforma de Smart Contracts, siendo la primera que posee un lenguaje (del estilo bytecode) con característica \textit{Turing complete} (permite que un el lenguaje pueda llegar a programarse para realizar cualquier tipo de operación) que corre en una máquina virtual llamada \textit{Ethereum Virtual Machine (EVM)}.
+\textit{Ethereum Network} fue desarrollada para ser una plataforma de \texttt{smart contracts}, siendo la primera que posee un lenguaje (del estilo bytecode) con característica \textit{Turing complete} (permite que un el lenguaje pueda llegar a programarse para realizar cualquier tipo de operación) que corre en una máquina virtual llamada \textit{Ethereum Virtual Machine (EVM)}.\\
 
-Si bien hay diversos lenguajes de programación que son compilados a la representación en bytecode para EVM, el que es oficialmente desarrollado y posee financiación por parte de la \textit{Ethereum Foundation es Solidity}\cite{solidity_readthedocs}.
+Si bien hay diversos lenguajes de programación que son compilados a la representación en bytecode para EVM, el que es oficialmente desarrollado y posee financiación por parte de la \textit{Ethereum Foundation} es \textbf{Solidity}\cite{solidity_readthedocs}.\\
 
-Solidity, que si bien se puede percibir como un lenguaje medianamente similar a Javascript en cuanto a sus aspectos sintácticos y en menor medida semánticos, nació de la necesidad de tener un lenguaje de alto nivel orientado a desarrollar \textit{Smart Contracts} que permita interactuar con la Ethereum Network. 
+\texttt{Solidity}, que si bien se puede percibir como un lenguaje medianamente similar a \texttt{Javascript} en cuanto a sus aspectos sintácticos y en menor medida semánticos, nació de la necesidad de tener un lenguaje de alto nivel orientado a desarrollar \textit{Smart Contracts} que permita interactuar con la \texttt{Ethereum Network}. \\
 
-Los Smart Contracts hoy en día manipulan y almacenan caudales de dinero de gran magnitud, es por eso que es inevitable que la seguridad en estos casos se haga presente.
+Los \texttt{smart contracts} hoy en día manipulan y almacenan caudales de dinero de gran magnitud, es por eso que es inevitable que la seguridad en estos casos se haga presente.\\
 
 Ha habido ya muchos casos registrados de pérdidas de miles de millones de dólares, debido a descuidos a la hora de desarrollar y por no entender este muy reciente \textit{“paradigma”}:
 \begin{itemize}
-\item Uno de los clientes más populares utilizado para facilitar a los usuarios la interacción con la red, congeló fondos valuados en \$100 millones de dólares debido a un bug en su código\cite{Hertig:Alyssa:Coindesk}.
+\item Uno de los clientes más populares utilizado para facilitar a los usuarios la interacción con la red, congeló fondos valuados en \$100 millones de dólares debido a un error en su código\cite{Hertig:Alyssa:Coindesk}.
 \item En julio del 2017, días después de que un hacker obtuviera más de 7 millones de dólares explotando una vulnerabilidad, debido a otro error en el mismo cliente, otro hacker obtuvo acceso a fondos de algunas cuentas, valuado en un total de \$37 millones de dólares \cite{Pearson:Jordan:Motherboard}.
-\item Un ejemplo de un error de diseño del lenguaje con impacto a gran escala es el caso del famoso llamado, en este ambiente, “Reentrancy bug”. Permitía a un atacante retirar una gran cantidad de veces su balance de un contrato, volviendo a llamar a la misma funcionalidad en medio de su ejecución, logrando así multiplicar sus fondos\cite{Vessenes:Peter:Vessenes}.
+\item Un ejemplo de un error de diseño del lenguaje con impacto a gran escala es el caso del famoso llamado, en este ambiente, \texttt{“Reentrancy bug”}. Permitía a un atacante retirar una gran cantidad de veces su balance de un contrato, volviendo a llamar a la misma funcionalidad en medio de su ejecución, logrando así multiplicar sus fondos\cite{Vessenes:Peter:Vessenes}.
 \end{itemize}
+\bigskip
 
-Así es como que desde el lado de los estudios de los lenguajes de programación, parece de suma relevancia poseer lenguajes y compiladores correspondientes que funcionen de manera esperada, sin permitirle a los desarrolladores la posibilidad de cometer errores catastróficos.
+Así es como que desde el lado de los estudios de los lenguajes de programación, parece de suma relevancia poseer lenguajes y compiladores correspondientes que funcionen de manera esperada, sin permitirle a los desarrolladores la posibilidad de cometer errores catastróficos.\\
 
 En este contexto un error en la generación del bytecode podría detener el funcionamiento de una red de miles de máquinas virtuales, o financieramente impactar de formas inesperadas en el contrato desarrollado.
 
 \section{Objetivos}
-\textit{Realizar una investigación de las estrategias y metodologías existentes para auditar compiladores, brindando primero una introducción a la auditoría de software, luego una introducción a auditoría específicamente de compiladores, comentando las técnicas más populares.}
+\textit{Realizar una investigación de las estrategias y metodologías existentes para auditar compiladores, brindando primero una introducción a la auditoría de software, luego una introducción a auditoría específicamente de compiladores, comentando las técnicas más populares.}\\
 
 \textit{Finalmente evaluar como caso de uso una auditoría al lenguaje \textbf{Solidity} y a su compilador \textbf{solc}, explicando el proceso y herramientas utilizadas, mostrando los resultados obtenidos.}

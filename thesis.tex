@@ -9,6 +9,8 @@
 \usepackage{csquotes}
 \usepackage[spanish]{babel}
 \usepackage[dvipsnames]{xcolor}
+% \usepackage[tracking=true]{microtype}
+% \setlength{\parskip}{6pt}
 % \usepackage{quoting}
 \pagestyle{fancy}
 \fancyhead{}
@@ -22,6 +24,8 @@
 \fancyfoot[CO,RE]{Matías A. Ré Medina}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\lstlistingname}{Recuadro}
+\renewcommand{\figurename}{Figura}
 
 \input{solidity-highlighting.tex}
 
@@ -30,6 +34,16 @@
 
 \usepackage[backend=biber,style=authoryear,sorting=ynt,style=numeric-comp]{biblatex}
 \addbibresource{./references.bib}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=RoyalBlue, 
+    urlcolor=MidnightBlue,
+    citecolor=Plum
+}
+\urlstyle{same}
+
 \begin{document}
 
 \input{titlepage}
@@ -37,39 +51,47 @@
 \input{abstract}
  
 % \chapter*{Dedicación}
-% Quiero dedicarle la tésis particularmente a mis padres, en principal a mi madre Silvia Medina.
  
 % \chapter*{Agradecimientos}
-% Me gustaría agradecerle a los que me acompañaron a lo largo de las investigaciones
-% que desarrollé, dentro de mi inconformidad, hasta dar con esta que terminaría siendo mi tésis.
  
 \tableofcontents
 
 
 \chapter{Introducción}
-\input{chapters/ch01}
 \label{chap:introduccion}
+\input{chapters/ch01}
+
 \chapter{Marco teórico}
-\input{chapters/ch02}
 \label{chap:marco}
+\input{chapters/ch02}
+
 \chapter{Estado del arte}
-\input{chapters/ch03}
 \label{chap:estado}
+\input{chapters/ch03}
+
 \chapter{Método propuesto}
-\input{chapters/ch04}
 \label{chap:metodo}
+\input{chapters/ch04}
+
 \chapter{Resultados}
-\input{chapters/ch05}
 \label{chap:resultados}
+\input{chapters/ch05}
+
 \chapter{Trabajo futuro}
-\input{chapters/ch06}
 \label{chap:trabajo}
+\input{chapters/ch06}
+
 \chapter{Conclusiones}
-\input{chapters/ch07}
 \label{chap:conclusiones}
+\input{chapters/ch07}
+
 \appendix
 \chapter{Coinspect Audit Recheck Detalles}
+\label{chap:appendixA}
 \input{chapters/appendixA}
-\printbibliography
+
+\printbibheading
+\printbibliography[nottype=online, heading=subbibliography, title={Libros y publicaciones}]
+\printbibliography[type=online, heading=subbibliography, title={Otros recursos}]
 \end{document}
 

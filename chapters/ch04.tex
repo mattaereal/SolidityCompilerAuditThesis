@@ -1,7 +1,5 @@
 TODO:
 \begin{itemize}
-    \item Faltan todos los links a las herramientas.
-    \item Falta formatting.
     \item Agregar gráfico en metodología
     \item Eliminar este TODO al finalizar.
 \end{itemize}
@@ -33,20 +31,21 @@ No se cubrirá la generación de código \textit{eWASM} (Ethereum Flavored WebAs
 El proyecto no parece integrar la seguridad como componente activo en su ciclo de desarrollo. Incluye un componente para aplicar técnicas de \textit{fuzzing} y una suite de testeo. Estos no serán analizados con detenimiento pero de todos modos se verá cuál es su real interacción con el compilador.
 
 \section{Metodología }
+\label{chap:metodo:metodologia}
 Para estos casos, siempre es mejor realizar una revisión manual de código, y como tal se debe comenzar con un modelado de amenazas o al menos entrevistas a los desarrolladores para tener un entendimiento de la arquitectura de la aplicación, su superficie de ataque, así como también las técnicas de implementación.\\
 
-Es por eso que durante toda la auditoría se mantuvo siempre al menos un canal de comunicación abierto con el equipo encargado del proyecto. Se utilizaron servicios de mensajería[ref gitter] para mantener un diálogo específicamente para detalles asíncronos sobre dudas puntuales, frecuentemente relacionadas a la información presentada en el repositorio de GitHub.\\
+Es por eso que durante toda la auditoría se mantuvo siempre al menos un canal de comunicación abierto con el equipo encargado del proyecto. Se utilizaron servicios de mensajería\cite{GitterLink} para mantener un diálogo específicamente para detalles asíncronos sobre dudas puntuales, frecuentemente relacionadas a la información presentada en el repositorio de \textit{GitHub}.\\
 
-GitHub como herramienta fue utilizada en el proyecto como medio de intercambio de información de una manera más acoplada al proyecto, teniendo la posibilidad de continuar involucrando a la comunidad activa.\\
+\textit{GitHub} como herramienta fue utilizada en el proyecto como medio de intercambio de información de una manera más acoplada al proyecto, teniendo la posibilidad de continuar involucrando a la comunidad activa.\\
 
-Finalmente para partes del código difíciles de comprender, se realizaron walkthroughs (guías destinadas a mejorar el entendimiento del proyecto) mediante videollamadas en una herramienta de videoconferencia[ref Meet]. 
+Finalmente para partes del código difíciles de comprender, se realizaron \textit{walkthroughs} (guías destinadas a mejorar el entendimiento del proyecto) mediante videollamadas en una herramienta de videoconferencia\cite{MeetLink}.\\ 
 
-Se utilizó un conjunto de las estrategias de auditoría de código con propósitos bien definidos. Por ejemplo, la generalización de diseño aplicada a analizar la arquitectura del compilador; puntos candidatos para posibles problemas en las etapas de parsing y optimización; y compresión de código basados en hallazgos mediante técnicas de black box o testing manual.
+Se utilizó un conjunto de las estrategias de auditoría de código con propósitos bien definidos. Por ejemplo, la \textit{generalización de diseño} aplicada a analizar la arquitectura del compilador; \textit{puntos candidatos} para posibles problemas en las etapas de parsing y optimización; y \textit{compresión de código} basados en hallazgos mediante técnicas de \textit{black box} o \textit{testing} manual.\\
 
 A grandes rasgos, se pretendió:
 \begin{itemize}
     \item Cubrir un análisis general del proyecto en todos los aspectos del mismo, desde cómo está conformado el equipo que lo mantiene hasta las tecnologías que se utilizan.
-    \item Realizar revisión de código en los puntos candidatos y en los lugares en donde se han  producido fallos en las pruebas de Black Box.
+    \item Realizar revisión de código en los puntos candidatos y en los lugares en donde se han  producido fallos en las pruebas de \textit{black box}.
     \item Auditar las distintas etapas del compilador a nivel general, buscando que la arquitectura del compilador contemple las etapas estándar.
     \item Revisar el diseño del lenguaje y su instrumentación para verificar que la instrumentación sea consistente con la especificación del diseño del lenguaje.
     \item Revisar la configuración de testeo para detectar posibles fallos en los códigos de testeo del propio proyecto.
@@ -61,112 +60,111 @@ Finalizar una auditoría no consta únicamente de entregar lo hallado de manera 
 
 \section{Herramientas par el análisis}
 
-El método principal de análisis comienza observando y comprendiendo el código (escrito en el lenguaje C ++, versión XXX) del compilador en profundidad. Sin embargo, también se utiliza una serie de herramientas automatizadas que ayudan el estudio en varios aspectos complementarios. Estos se estructuran en 3 categorías principales: (1) visualización de código, (2) análisis estático y (3) prueba / fuzzing. Estas categorías se aplican tanto para el código C ++ del compilador como para la salida EVM que genera.
+El método principal de análisis comienza observando y comprendiendo el código (escrito en el lenguaje C ++, versión 11) del compilador en profundidad. Sin embargo, también se utiliza una serie de herramientas automatizadas que ayudan el estudio en varios aspectos complementarios. Estos se estructuran en 3 categorías principales: (1) \textit{visualización de código}, (2) \textit{análisis estático} y (3) \textit{prueba / fuzzing}. Estas categorías se aplican tanto para el código \textit{C++} del compilador como para la salida \textit{EVM} que genera.
 
 \subsubsection{Herramientas C++ (Código del compilador)}
 
-Debido a que C ++ es un lenguaje establecido que contiene cierta madurez, existe una gran cantidad de herramientas disponibles. Las herramientas de visualización nos ayudan a comprender el código del compilador, así como a navegarlo. Las herramientas de análisis estático nos ayudan a detectar las dificultades semánticas comunes dentro de él, y las herramientas de fuzzing estresan al compilador con un gran conjunto de pruebas generadas automáticamente.\\
+Debido a que \textit{C++} es un lenguaje establecido que contiene cierta madurez, existe una gran cantidad de herramientas disponibles. Las herramientas de visualización nos ayudan a comprender el código del compilador, así como a navegarlo. Las herramientas de análisis estático nos ayudan a detectar las dificultades semánticas comunes dentro de él, y las herramientas de \textit{fuzzing} estresan al compilador con un gran conjunto de pruebas generadas automáticamente.\\
 
-\textbf{Visualización de código (C++)}\\
+\textbf{Visualización de código (C++):}\\
 
-\underline{\textit{SourceTrail}}
-Un explorador de código para C++ y Java. Extremadamente útil para la rápida navegación visual de una gran base de código.\\
+\underline{\textit{SourceTrail}}\cite{SourceTrailLink}
+Un explorador de código para \textit{C++} y \textit{Java}. Extremadamente útil para la rápida navegación visual de una gran base de código.\\
 
-\underline{\textit{Visual Paradigm}}
-Una herramienta para generación de gráficos UML. Permite generar distintos diagramas, como el de clases, basándose en el código de un proyecto.\\
+\underline{\textit{Visual Paradigm}}\cite{VisualParadigmLink}
+Una herramienta para generación de gráficos \textit{UML}. Permite generar distintos diagramas, como el de clases, basándose en el código de un proyecto.\\
 
-\underline{\textit{Ctags}}
+\underline{\textit{Ctags}}\cite{CtagsLink}
 Indexador de código. Comúnmente utilizado junto con el IDE para facilitar la navegación del proyecto.\\
 
-\underline{\textit{Cscope}}
+\underline{\textit{Cscope}}\cite{CscopeLink}
 Navegador de código de fuente. Es similar a Ctags pero permite ir un poco ``más allá", y funciona mejor en proyectos grandes donde su código no es conocido.\\
 
-\underline{\textit{Clang-tidy}}
+\underline{\textit{Clang-tidy}}\cite{ClangTidyLink}
 Linter basado en Clang para C++ apuntado a diagnosticar y señalar típicos errores de programación. Incluye chequeos para las librerías de boost también.\\
 
-\underline{\textit{CppCheck}}
+\underline{\textit{CppCheck}}\cite{CppCheckLink}
 Herramienta de análisis estático para C++ apuntado a detectar errores reales (mínimos falsos positivos).\\
 
-\underline{\textit{CppDepend}}
+\underline{\textit{CppDepend}}\cite{CppDependLink}
 Potente análisis estático destinado a mejorar la calidad del código.\\
 
-\underline{\textit{Flawfinder}}
+\underline{\textit{Flawfinder}}\cite{FlawfinderLink}
 Herramienta para detectar posibles problemas de seguridad en código C++.\\
 
-\underline{\textit{CppLint}}
+\underline{\textit{CppLint}}\cite{CppLintLink}
 Es una herramienta de línea de comandos para verificar archivos C / C ++ en busca de problemas de estilo siguiendo la guía de estilo C++ de Google.\\
 
-\underline{\textit{Scan-build}}
+\underline{\textit{Scan-build}}\cite{ScanBuildLink}
 Es una utilidad de línea de comando que permite a un usuario ejecutar un analizador estático sobre su base de código como parte de la realizar una compilación regular.\\
 
-\underline{\textit{Lizard}}
+\underline{\textit{Lizard}}\cite{LizardLink}
 Lizard es un analizador de complejidad ciclomática extensible para muchos lenguajes de programación, incluido C/C++ (no requiere todos los archivos de encabezado ni las importaciones de Java). También realiza detección de copy \& paste (detección de clon de código / detección de duplicado de código) y muchas otras formas de análisis de código estático.\\
 
-\textbf{Prueba / fuzzing (C++)}\\
+\textbf{Prueba / fuzzing (C++):}\\
 
-\underline{\textit{Grammarinator}}
-Genera pruebas aleatorias de acuerdo con una definición de gramática ANTLR. La gramática Solidity.g4 creada por Federico Bond permite un acercamiento menos laborioso para integrar la gramática oficial.\\
+\underline{\textit{Grammarinator}}\cite{GrammarinatorLink}
+Genera pruebas aleatorias de acuerdo con una definición de gramática ANTLR. La gramática Solidity.g4\cite{SolidityG4} creada por Federico Bond permite un acercamiento menos laborioso para integrar la gramática oficial.\\
 
-\underline{\textit{American Fuzzy Lop}}
+\underline{\textit{American Fuzzy Lop}}\cite{AFLLink}
 AFL es un fuzzer orientado a la seguridad que emplea un nuevo tipo de instrumentación en tiempo de compilación y algoritmos genéticos para descubrir automáticamente casos de prueba limpios e interesantes que desencadenan nuevos estados internos en el binario objetivo. Esto mejora sustancialmente la cobertura funcional para el código fuzzeado.\\
 
-\underline{\textit{LibFuzzer}}
-Es un motor evolutivo de fuzzing, in-process, guiado por la cobertura del proyecto.
-Se enlaza con la biblioteca o el proyecto bajo testeo, y se le alimenta entradas fuzzeadas mediante un punto de entrada; el fuzzer luego localiza qué áreas del código son alcanzadas, y genera mutaciones a partir de los datos de entrada para maximizar la covertura del código.
-La información de cobertura del código para libFuzzer es proporcionada por la instrumentación SanitizerCoverage de LLVM.
+\underline{\textit{LibFuzzer}}\cite{LibFuzzerLink}
+Es un motor evolutivo de fuzzing, in-process, guiado por la cobertura del proyecto. Se enlaza con la biblioteca o el proyecto bajo testeo, y se le alimenta entradas fuzzeadas mediante un punto de entrada; el fuzzer luego localiza qué áreas del código son alcanzadas, y genera mutaciones a partir de los datos de entrada para maximizar la covertura del código.\\
+La información de cobertura del código para libFuzzer es proporcionada por la instrumentación SanitizerCoverage de LLVM.\\
 
-\underline{\textit{Instrumentaciones de compilación de Clang}}
+\underline{\textit{Instrumentaciones de compilación de Clang}}\cite{ClangInstrumentationLink}
 Flags de compilación para instrumentar en compilación al binario.
-AddressSanitizer (detector de error de memoria rápida), MemorySanitizer (detector de lecturas de variables no inicializadas), Fuzzer (alternativa para utilizar libFuzzer), SanitizerCoverage (cobertura de código).
+AddressSanitizer\cite{AddressSanitizerLink} (detector de error de memoria rápida), MemorySanitizer\cite{MemorySanitizerLink} (detector de lecturas de variables no inicializadas), Fuzzer (alternativa para utilizar libFuzzer), SanitizerCoverage\cite{SanitizerCoverageLink} (cobertura de código).\\
 
-\underline{\textit{Debugging: gdb/lldb (for debugging)}}
-Herramientas de debugging para realizar análisis en ejecución. Se pueden utilizar como línea de comandos, o integrados al IDE.
+\underline{\textit{Debugging: gdb/lldb\cite{gdbLink}\cite{lldbLink}}}
+Herramientas de debugging para realizar análisis en ejecución. Se pueden utilizar como línea de comandos, o integrados al IDE.\\
 
-\underline{\textit{Dhex}}
-Editor hexadecimal por línea de comandos.
+\underline{\textit{Dhex}}\cite{DhexLink}
+Editor hexadecimal por línea de comandos.\\
 
-\underline{\textit{Honggfuzz}}
+\underline{\textit{Honggfuzz}}\cite{HonggfuzzLink}
 Fuzzer orientado a la seguridad con potentes opciones de análisis. Admite fuzzing evolutivo basado en retroalimentación basado en la cobertura de código (basado en software y hardware).
 
 \subsubsection{Herramientas EVM (Código generado por el compilador)}
 
-El ecosistema Ethereum ya está produciendo una serie de herramientas que son potencialmente útiles para este análisis. Las herramientas de visualización ayudan a comprender el resultado del compilador, que es bastante bajo y difícil de leer de forma natural. Dicha visualización es particularmente importante para evaluar las optimizaciones del código de operación EVM. El análisis estático ayuda a identificar problemas de flujo de control que pueden impactar la EVM, y las herramientas de fuzzing nos permiten probar bytecode fuera de la interfaz ABI ampliamente utilizada actualmente cubierta en muchos frameworks.\\
+El ecosistema \textit{Ethereum} ya está produciendo una serie de herramientas que son potencialmente útiles para este análisis. Las herramientas de visualización ayudan a comprender el resultado del compilador, que es bastante bajo y difícil de leer de forma natural. Dicha visualización es particularmente importante para evaluar las optimizaciones del código de operación \textit{EVM}. El análisis estático ayuda a identificar problemas de flujo de control que pueden impactar la \textit{EVM}, y las herramientas de fuzzing nos permiten probar bytecode fuera de la interfaz \textit{ABI} ampliamente utilizada actualmente cubierta en muchos frameworks.\\
 
-\textbf{Visualización de código (EVM)}\\
+\textbf{Visualización de código (EVM):}\\
 
-\underline{\textit{Solplay}}
+\underline{\textit{Solplay}}\cite{SolplayLink}
 Visualizador de Solidity a varias salidas del compilador, incluyendo procesamiento post-bytecode por otras herramientas. Creada por Zeppelin particularmente para esta auditoría, intencionada para acelerar el uso de otras herramientas de visualización.\\
 
-\underline{\textit{Solmap}}
+\underline{\textit{Solmap}}\cite{SolmapLink}
 Bytecode visualizado en tiempo real, con la habilidad de seleccionar conjuntos de instrucciones y ver el código en Solidity asociado a ellos. Utiliza la información de mapeo de código de Solidity. También construida por Zeppelin para esta auditoría.\\
 
-\underline{\textit{Remix}}
+\underline{\textit{Remix}}\cite{RemixLink}
 Solidity IDE web. Útil para debuggear salidas del compilador. \\
 
-\underline{\textit{Evmdis}}
+\underline{\textit{Evmdis}}\cite{EvmdisLink}
 Disassembler para la EVM que agrupa opcodes en expresiones más legibles. Útil para visualizaciones pero no es 100\% preciso.\\
 
-\underline{\textit{go-ethereum/evm}}
+\underline{\textit{go-ethereum/evm}}\cite{goEthereumLink}
 Utilidad para desarrolladores de la EVM. Excellente para debuggear la ejecución de la EVM a un bajo nivel.\\
 
-\underline{\textit{Evm-tools}}
+\underline{\textit{Evm-tools}}\cite{evmToolsLink}
 Herramientas para la ejecución y el desensamblado de la EVM. Tools for EVM execution. Desactualizado, pero útil principalmente con fines educativos. No es lo suficientemente confiable.\\
 
-\textbf{Análisis estático (EVM)}\\
+\textbf{Análisis estático (EVM):}\\
 Fuera del alcance de la investigación.\\
 
-\textbf{Prueba / fuzzing (EVM)}\\
+\textbf{Prueba / fuzzing (EVM):}\\
 
-\underline{\textit{Web3}}
+\underline{\textit{Web3}}\cite{Web3Link}
 Ethereum Javascript API.\\
 
-\underline{\textit{Geth}}
+\underline{\textit{Geth}}\cite{GethLink}
 Implementación en Go de un nodo de ethereum, utilizado para simular transacciones y correr testeos.\\
 
-\underline{\textit{Cpp-ethereum}}
+\underline{\textit{Cpp-ethereum}}\cite{cppEthereumLink}
 Implementación de nodo en Ethereum en C++.\\
 
 \section{Formato de los resultados}
 La manera más oportuna y organizada de presentar los resultados, dada la cantidad y la complejidad que poseen, se concluyó que debería ser compuesta de un título descriptivo, un breve desarrollo de la situación en la que se da, un ejemplo o forma de replicación, recomendaciones para remediar o mejorar esa situación, y para finalizar un breve comentario con el estado actual de dicha cuestión en el proyecto.\\
 
-El estado actual no es más que una sección comentando la respuesta por parte de los líderes del proyecto, y el estado en el que se encuentra a la hora de escribir este trabajo de investigación, que difiere notablemente de la fecha de los hallazgos. Se incluirán links a issues y pull requests de GitHub en los casos en los que existan referencias directas con el proyecto.
+El estado actual no es más que una sección comentando la respuesta por parte de los líderes del proyecto, y el estado en el que se encuentra a la hora de escribir este trabajo de investigación, que difiere notablemente de la fecha de los hallazgos. Se incluirán links a \textit{issues} (especie de tickets para reportar problemas, sugerencias, y más) y \textit{pull requests} (solicitud de incorporación cambios) de \textit{GitHub} en los casos en los que existan referencias directas con el proyecto.
