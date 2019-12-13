@@ -682,7 +682,6 @@ contract C {
 
 El analizador no detecta el mal uso de la sintáxis \texttt{\_slot} sobre una variable con nombre vacío.\\
 
-Código de ejemplo:
 \begin{lstlisting}[language=Solidity, caption={Código de ejemplo para fallo con \texttt{\_slot}}]
 pragma solidity ^0.4.24;
 contract CrashContract {
@@ -720,7 +719,6 @@ contract CrashContract {
 
 El analizador no reconoce que a una variable le falta su tipo en los parámetros de la función; ocurre al tener un contexto en el que se define una función sin nombre que retorna una matriz.\\
 
-\textbf{Código de ejemplo:}
 \begin{lstlisting}[language=Solidity, caption={Código de ejemplo para parámetro de función sin tipo}]
 pragma solidity ^0.4.24;
 contract CrashContract {

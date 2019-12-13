@@ -1,10 +1,3 @@
-TODO:
-\begin{itemize}
-    \item Agregar gráfico en metodología
-    \item Eliminar este TODO al finalizar.
-\end{itemize}
-\bigskip
-
 \section{Introducción}
 
 El objetivo de la metodología descripta en este capítulo consiste en revisar el compilador y lenguaje de Solidity, analizar su diseño general y arquitectura, y reportar potenciales vulnerabilidades de seguridad que puedan llegar a comprometer el código compilado. En este capítulo se describe el trabajo realizado presentando ejemplos de observaciones en áreas específicas del código que presentan problemas concretos, así como también observaciones generales que atraviesan el proyecto entero, que puede mejorar su calidad como un todo.\\
@@ -40,7 +33,14 @@ Es por eso que durante toda la auditoría se mantuvo siempre al menos un canal d
 
 Finalmente para partes del código difíciles de comprender, se realizaron \textit{walkthroughs} (guías destinadas a mejorar el entendimiento del proyecto) mediante videollamadas en una herramienta de videoconferencia\cite{MeetLink}.\\ 
 
-Se utilizó un conjunto de las estrategias de auditoría de código con propósitos bien definidos. Por ejemplo, la \textit{generalización de diseño} aplicada a analizar la arquitectura del compilador; \textit{puntos candidatos} para posibles problemas en las etapas de parsing y optimización; y \textit{compresión de código} basados en hallazgos mediante técnicas de \textit{black box} o \textit{testing} manual.\\
+Se utilizó un conjunto de las estrategias de auditoría de código con propósitos bien definidos. Por ejemplo, la \textit{generalización de diseño} aplicada a analizar la arquitectura del compilador; \textit{puntos candidatos} para posibles problemas en las etapas de parsing y optimización; y \textit{compresión de código} basados en hallazgos mediante técnicas de \textit{black box} o \textit{testing} manual. Para una representación gráfica aproximada ver Figura \ref{fig:metodologia}.\\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.5]{images/methodology.png}
+    \caption{Estrategias aplicadas, visualización.}
+    \label{fig:metodologia}
+\end{figure}
 
 A grandes rasgos, se pretendió:
 \begin{itemize}
