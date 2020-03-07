@@ -31,7 +31,7 @@ A continuación ejemplos de algunas situaciones que son de relevancia en las que
     \hline
     \textbf{Situación} & \textbf{Descripción} & \textbf{Ventaja} \\
     \hline
-    Auditoría in-house (pre-release). & Una compañía de software realiza auditorías de código a un nuevo producto antes de su release. & Fallas de diseño e implementación pueden ser identificadas y remediadas antes de que el producto salga al mercado, ahorrando dinero en desarrollo y desplegando actualizaciones. También le ahorra a la compañía una potencial situación vergonzosa. \\
+    Auditoría in-house (pre-release). & Una compañía de software realiza auditorías de código a un nuevo producto antes de su release. & Fallas de diseño e implementación pueden ser identificadas y remediadas antes de que el producto salga al mercado, ahorrando dinero en desarrollo e implementando actualizaciones. También le ahorra a la compañía una potencial situación vergonzosa. \\
     \hline
     Aditoría in-house (post-release). & Una compañía de software realiza auditorías de código a un nuevo producto luego de su release. & 
     Vulnerabilidades de seguridad pueden ser encontradas y corregidas antes de que partes con intenciones maliciosas las descubran primero. Este proceso permite obtener tiempo para realizar testeos y otros chequeos, al contrario que estar haciendo una publicación en apuros en respuesta a un vulnerability disclosure (la acción de hacer pública una vulnerabilidad). \\
@@ -44,7 +44,7 @@ A continuación ejemplos de algunas situaciones que son de relevancia en las que
 
 \begin{tabular}{|p{4.3cm}|p{4.3cm}|p{4.3cm}|}
     \hline
-    Evaluación por terceros. & Un tercero realiza una auditoría de software de manera independiente para un producto de un cliente. & El cliente puede obtener un gran entendimiento de la seguridad relativa a un producto que pretende desplegar. Esto prueba ser el factor decisivo entre la compra de un producto u otro. \\
+    Evaluación por terceros. & Un tercero realiza una auditoría de software de manera independiente para un producto de un cliente. & El cliente puede obtener un gran entendimiento de la seguridad relativa a un producto que pretende implementar. Esto prueba ser el factor decisivo entre la compra de un producto u otro. \\
     \hline
     Evaluación preliminar por terceros. & Un tercero realiza una auditoría de software de manera independiente de un producto antes de que salga al mercado. & Capitalistas de riesgo pueden obtener una idea de la viabilidad de una futura tecnología con propósitos de financiamiento. Proveedores pueden también realizar este tipo de evaluación para asegurar la calidad de un producto que pretenden llevar al mercado. \\
     \hline
@@ -92,7 +92,7 @@ Todo proceso de desarrollo de software sigue este modelo hasta cierto grado. El 
 
 Entendiendo que aplicar seguridad en distintas etapas del proceso puede llevar a hallazgos en cada una de ellas, es natural poder separar en categorías cada uno de estos hallazgos. Para ver una representación de cómo sería ver la Figura \ref{fig:ssdlc}.\\
 
-Si lo que se encuentra corresponde a la etapa de diseño, tienden a ser fallas en las especificaciones y la arquitectura del sistema; vulnerabilidades de implementación son fallas técnicas a bajo nivel en la construcción real del software, y finalmente, en la categoría de vulnerabilidades operacionales  entran las fallas que suceden por deployments y configuración del software en un entorno en particular.\\
+Si lo que se encuentra corresponde a la etapa de diseño, tienden a ser fallas en las especificaciones y la arquitectura del sistema; vulnerabilidades de implementación son fallas técnicas a bajo nivel en la construcción real del software, y finalmente, en la categoría de vulnerabilidades operacionales  entran las fallas que suceden por implementaciones y configuración del software en un entorno en particular.\\
 
 Sin ir más lejos, los costos para solucionar un bug en algunas de estas etapas, tanto para proyectos ágiles o en cascada, empeoran mientras más tarde se encuentran.\\
 
@@ -685,15 +685,15 @@ Entendiendo esto, se pueden definir las siguientes maneras de auditar una tecnol
     Análisis al código mediante la automatización de herramientas que buscan patrones comunes susceptibles a errores y fallas de seguridad.
     \item \textbf{Análisis dinámico del contrato}\newline
     Analizar mediante cualquier medio el comportamiento del contrato, interactuando en vivo en la \textit{blockchain}. Generalmente se replica en un entorno seguro, como en una red de testeo, conocidas como testnets.
-    \item \textbf{Ingeniería inversa al bytecode deployado}\newline
-    Analizar directamente el código resultante de la compilación, es decir el bytecode, lenguaje que interpreta la \textit{EVM}. Generalmente se utiliza para observar si se introdujeron errores en el proceso de deployment, o para los contratos cuyo código fuente no se posee.
+    \item \textbf{Ingeniería inversa al bytecode implementado}\newline
+    Analizar directamente el código resultante de la compilación, es decir el bytecode, lenguaje que interpreta la \textit{EVM}. Generalmente se utiliza para observar si se introdujeron errores en el proceso de implementación, o para los contratos cuyo código fuente no se posee.
     \item \textbf{Verificación formal}\newline
     Es el mecanismo mediante el cual se prueba la correctitud de un contrato, basada en la verificación formal de lo que se supone que debería hacer. Una manera de realizar análisis estático pero sumamente compleja. Generalmente lo realiza quién lo desarrolla.
     \item \textbf{Ejecución simbólica}\newline
     Mecanismo para analizar un contrato con el fin de entender qué entradas estimulan qué partes de él.
 \end{itemize}
 
-Algunas de estas técnicas implican analizar directamente el bytecode como output del compilador de \textit{Solidity} por ejemplo, o el bytecode del contrato \textit{desplegado} en la \textit{blockchain}, por más que se posea el fuente.\\
+Algunas de estas técnicas implican analizar directamente el bytecode como output del compilador de \textit{Solidity} por ejemplo, o el bytecode del contrato \textit{implementado} en la \textit{blockchain}, por más que se posea el fuente.\\
 
 \textbf{¿Por qué se ofrece esta alternativa?} Porque es lógico asumir luego de las declaraciones anteriores, que no se puede confiar en la manera en la que los compiladores optimizan o interpretan el código. Por eso es necesario comprobar que la salida interpretada por la \textit{EVM} tiene de hecho la intención con la que fue diseñado.
 

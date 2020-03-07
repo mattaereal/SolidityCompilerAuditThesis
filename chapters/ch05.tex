@@ -9,10 +9,10 @@ Se evitó extender esta sección en demasía, teniendo en cuenta que el detalle 
 
 \section{Hallazgos por categoría}
 \subsection{Problemas de contexto general}
-\subsubsection{Se pueden inyectar direcciones inválidas de bibliotecas en la etapa de linkeo
+\subsubsection{Se pueden inyectar direcciones inválidas de bibliotecas en la etapa de enlace (linking)
 }
 
-Un contrato que depende de una biblioteca con funciones públicas tendrá la dirección de la instancia desplegada de la librería en su bytecode. Dado que esta dirección no es conocida por el compilador, tiene que ser provista por el usuario: esto se hace mediante la opción \texttt{--libraries} en \texttt{solc}. Sin embargo, es imposible no proveer esas direcciones, y dejar el contrato sin estar linkeado; es por eso que una secuencia especial de caracteres, conteniendo el nombre de la biblioteca va a estar presente en el bytecode, previniendo que el contrato sea desplegado sin que la dependencia sea resuelta, utilizando el modo \texttt{--link} de \texttt{solc}, en el cual el enlace es realizado.\\
+Un contrato que depende de una biblioteca con funciones públicas tendrá la dirección de la instancia implementada de la librería en su bytecode. Dado que esta dirección no es conocida por el compilador, tiene que ser provista por el usuario: esto se hace mediante la opción \texttt{--libraries} en \texttt{solc}. Sin embargo, es imposible no proveer esas direcciones, y dejar el contrato sin estar enlazado (linked); es por eso que una secuencia especial de caracteres, conteniendo el nombre de la biblioteca va a estar presente en el bytecode, previniendo que el contrato sea implementado sin que la dependencia sea resuelta, utilizando el modo \texttt{--link} de \texttt{solc}, en el cual el enlace es realizado.\\
 
 El problema surge en la representación de este \texttt{string}: es truncado a 36 caracteres, y los caracteres remanentes del nombre de la librería son eliminados, sin advertencias. Es posible, entonces, tener múltiples librerías que compartan un nombre truncado, haciendo que compartan un prefijo suficientemente largo. Considerar el ejemplo a continuación:
 
@@ -129,7 +129,7 @@ Una verificación del estado de salud del proyecto permite al equipo dar un paso
 
 Sin embargo, \textit{Solidity} no es un proyecto standard de software: el código generado por él corre \textit{smart contracts}, los cuales sin inmutables y sus transacciones irreversibles. Medidas deberían ser tomadas para asesorar la seguridad del código de usuario de la manera más sencilla posible. Mientras que plataformas tales como \textbf{Etherscan} permiten la verificación del código de un contrato, no emiten las advertencias que fueron expedidas durante la compilación, forzando al usuarios a 1) recordar todos las cuestiones conocidas y chequear que ninguna de ellas esté presente, o 2) compilar el contrato localmente, incrementando significativamente la barrera de entrada para un desarrollador que está leyendo el código. \textbf{Etherscan} podría mostrar estas advertencias, pero sería mejor si esta responsabilidad no es transferida, y que dicho código no sea permitido en primer lugar.\\
 
-Considerar \textit{un contrato verificado que visualmente asimila ser inocente}\cite{EtherscanRopstenContratoMalicioso}. Un problema conocido como referencias sin inicializar, o setear un almacenamiento por defecto, causan en el contrato que una llamada a \verb|applyRaises| también modifique el \textit{owner} (término para referirse a quién controla el contrato) del contrato como un efecto secundario (como puede ser visto en el historial de transacciones). No se muestran advertencias, ni se encontraría en la mayoría de los testeos (dado que la mayoría de los testeos corren de manera independiente por diseño, y generalmente no se chequearía que el owner no haya cambiado después de una llamada a una función de este estilo).\\
+Considerar \textit{un contrato verificado que visualmente asimila ser inocente}\cite{EtherscanRopstenContratoMalicioso}. Un problema conocido como referencias sin inicializar, o establecer un almacenamiento por defecto, causan en el contrato que una llamada a \verb|applyRaises| también modifique el \textit{owner} (término para referirse a quién controla el contrato) del contrato como un efecto secundario (como puede ser visto en el historial de transacciones). No se muestran advertencias, ni se encontraría en la mayoría de los testeos (dado que la mayoría de los testeos corren de manera independiente por diseño, y generalmente no se chequearía que el owner no haya cambiado después de una llamada a una función de este estilo).\\
 
 Se recomendó realizar cambios disruptivos (\textit{breaking changes}) al corregir este tipo de errores (almacenamiento no inicializado, funciones de construcción sin la palabra reservada \verb|constructor|, etc.).\\
 
@@ -511,7 +511,7 @@ contract Empty {
 
 Se recomendó considerar el uso del análisis de flujo de control para advertir a los usuarios cuando una función declara un parámetro de retorno pero no devuelve nada.\\
 
-\textbf{Actualidad:} este problema se encuentra en el issue \textbf{\#4751}\cite{GHI4751} y se etiquetó bajo el área de diseño del lenguaje ()\textit{language design}).\\
+\textbf{Actualidad:} este problema se encuentra en el issue \textbf{\#4751}\cite{GHI4751} y se etiquetó bajo el área de diseño del lenguaje (\textit{language design}).\\
 
 \subsubsection{Los modificadores pueden utilizar un retorno (\texttt{return}).}
 
@@ -562,7 +562,7 @@ Warning: ``this" used in constructor. Note that external functions of a contract
 
 Se recomendó considerar hacer de esta advertencia un error para indicar mejor que este uso del idioma es incorrecto.\\
 
-\textbf{Actualidad:} el equipo de \textit{Solidity} respondió: \textit{``Hay que tener en cuenta que el uso de \texttt{'this.f'} sigue siendo válido en el constructor y tiene un caso de uso específico: enviar una función a otro contrato como un mecanismo de devolución de llamada"}.\\
+\textbf{Actualidad:} el equipo de \textit{Solidity} respondió: \textit{``Hay que tener en cuenta que el uso de \texttt{``this.f"} sigue siendo válido en el constructor y tiene un caso de uso específico: enviar una función a otro contrato como un mecanismo de devolución de llamada"}.\\
 
 \subsubsection{No hay advertencia para \textit{dead code} (código muerto).}
 
@@ -610,7 +610,7 @@ El analizador no detecta una variable previamente declarada cuando declara una n
 
 \begin{lstlisting}[language=Solidity, caption={Código de ejemplo variable mismo nombre.}]
 pragma solidity ^0.4.24;
-pragma experimental ``v0.5.0";
+pragma experimental ^v0.5.0;
 contract CrashContract {     
   function f() view public {
     int variableDefinedTwice;

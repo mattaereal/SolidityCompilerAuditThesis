@@ -107,10 +107,10 @@ Lizard es un analizador de complejidad ciclomática extensible para muchos lengu
 Genera pruebas aleatorias de acuerdo con una definición de gramática ANTLR. La gramática Solidity.g4\cite{SolidityG4} creada por Federico Bond permite un acercamiento menos laborioso para integrar la gramática oficial.\\
 
 \underline{\textit{American Fuzzy Lop}}\cite{AFLLink}
-AFL es un fuzzer orientado a la seguridad que emplea un nuevo tipo de instrumentación en tiempo de compilación y algoritmos genéticos para descubrir automáticamente casos de prueba limpios e interesantes que desencadenan nuevos estados internos en el binario objetivo. Esto mejora sustancialmente la cobertura funcional para el código fuzzeado.\\
+AFL es un fuzzer orientado a la seguridad que emplea un nuevo tipo de instrumentación en tiempo de compilación y algoritmos genéticos para descubrir automáticamente casos de prueba limpios e interesantes que desencadenan nuevos estados internos en el binario objetivo. Esto mejora sustancialmente la cobertura funcional para el código  que se le aplicarán técnicas de fuzzing.\\
 
 \underline{\textit{LibFuzzer}}\cite{LibFuzzerLink}
-Es un motor evolutivo de fuzzing, in-process, guiado por la cobertura del proyecto. Se enlaza con la biblioteca o el proyecto bajo testeo, y se le alimenta entradas fuzzeadas mediante un punto de entrada; el fuzzer luego localiza qué áreas del código son alcanzadas, y genera mutaciones a partir de los datos de entrada para maximizar la covertura del código.\\
+Es un motor evolutivo de fuzzing, in-process, guiado por la cobertura del proyecto. Se enlaza con la biblioteca o el proyecto bajo testeo, y se defin un punto de entrada; el fuzzer luego localiza qué áreas del código son alcanzadas, y genera mutaciones a partir de los datos de entrada para maximizar la covertura del código.\\
 La información de cobertura del código para libFuzzer es proporcionada por la instrumentación SanitizerCoverage de LLVM.\\
 
 \underline{\textit{Instrumentaciones de compilación de Clang}}\cite{ClangInstrumentationLink}
@@ -139,16 +139,16 @@ Visualizador de Solidity a varias salidas del compilador, incluyendo procesamien
 Bytecode visualizado en tiempo real, con la habilidad de seleccionar conjuntos de instrucciones y ver el código en Solidity asociado a ellos. Utiliza la información de mapeo de código de Solidity. También construida por Zeppelin para esta auditoría.\\
 
 \underline{\textit{Remix}}\cite{RemixLink}
-Solidity IDE web. Útil para debuggear salidas del compilador. \\
+Solidity IDE web. Útil para hacer debugging en las salidas del compilador. \\
 
 \underline{\textit{Evmdis}}\cite{EvmdisLink}
 Disassembler para la EVM que agrupa opcodes en expresiones más legibles. Útil para visualizaciones pero no es 100\% preciso.\\
 
 \underline{\textit{go-ethereum/evm}}\cite{goEthereumLink}
-Utilidad para desarrolladores de la EVM. Excellente para debuggear la ejecución de la EVM a un bajo nivel.\\
+Utilidad para desarrolladores de la EVM. Excellente para hacer debugging en la ejecución de la EVM a un bajo nivel.\\
 
 \underline{\textit{Evm-tools}}\cite{evmToolsLink}
-Herramientas para la ejecución y el desensamblado de la EVM. Tools for EVM execution. Desactualizado, pero útil principalmente con fines educativos. No es lo suficientemente confiable.\\
+Herramientas para la ejecución y el desensamblado de la EVM. Desactualizado, pero útil principalmente con fines educativos. No es lo suficientemente confiable.\\
 
 \textbf{Análisis estático (EVM):}\\
 Fuera del alcance de la investigación.\\

@@ -123,7 +123,7 @@ Existe un creciente interés en aplicar el aprendizaje automático a las pruebas
 
 \section{Serpent by Zeppelin (Jul 2017)}
 
-La empresa \textbf{Zeppelin}, crea herramientas para el desarrollo seguro, implementación y operación de sistemas descentralizados. También ayudan a compañías a securizar sus sistemas \textit{blockchain} realizando auditorías.\\
+La empresa \textbf{Zeppelin}, crea herramientas para el desarrollo seguro, implementación y operación de sistemas descentralizados. También ayudan a compañías a asegurar sus sistemas \textit{blockchain} realizando auditorías.\\
 
 La empresa \textbf{Augur} (un servicio de apuestas descentralizado) los contrató para realizarle una auditoría a \textbf{Serpent}, un compilador de un lenguaje \textit{Python-style} que compila a \textit{EVM}. El interés de \textit{Augur} en esta auditoría está dado por razones propias, tuvieron un inconveniente de seguridad por utilizar este lenguaje. El código del proyecto se puede ver aún en su repositorio de \textit{GitHub}\cite{SerpentRepository}.\\
 
@@ -134,7 +134,7 @@ La empresa \textbf{Augur} (un servicio de apuestas descentralizado) los contrat�
 
 En su publicación\cite{SerpentCompilerAuditZep}, la introducción a los resultados del reporte también es utilizada como conclusión al final del mismo. El contenido de ella es una la lista con los problemas apuntando directamente al documento original que posee detalle técnico.\\
 
-El reporte original menciona que su estrategia fue analizar el código \textit{C++} del compilador, sumado a revisar documentación, ejemplos, y herramientas recomendadas para trabajar con los contratos de \textit{Serpent}. Realizaron diversos contratos de ejemplo minimales, para verificar y exponer los problemas que encontraron. Analizaron el código assembler tanto en \textit{LLL} (Lisp Like Language, un lenguaje con un nivel de abstracción superior a la \textit{EVM}, pero considerado assembler) como en la \textit{EVM}, así como también su comportamiento en ejecución.\\
+El reporte original menciona que su estrategia fue analizar el código \textit{C++} del compilador, sumado a revisar documentación, ejemplos, y herramientas recomendadas para trabajar con los contratos de \textit{Serpent}. Realizaron diversos contratos de ejemplo minimalistas, para verificar y exponer los problemas que encontraron. Analizaron el código assembler tanto en \textit{LLL} (Lisp Like Language, un lenguaje con un nivel de abstracción superior a la \textit{EVM}, pero considerado assembler) como en la \textit{EVM}, así como también su comportamiento en ejecución.\\
 
 El análisis no explica metodologías ni tecnologías aplicadas a obtener a estos resultados. En base a todo lo observado el autor concluye que se trata de un proceso manual, poco automatizado, de un gran equipo. Sin embargo el acercamiento que la empresa tomó, a nivel proyecto, parece mucho más interesante que simplemente crear una herramienta, utilizar una ya existente sin explicar cómo utilizarla, o publicar los resultados sin establecer contacto con el equipo del producto analizado. Tal vez sea una diferencia destacable entre proyectos de grado y un contrato empresarial.
 Fué la primera auditoría que llamó la atención del autor en su momento, y mostró tanto la importancia como el estado inmaduro del mercado en este tipo de tecnologías.\\ 
@@ -149,7 +149,7 @@ Nuevamente \textit{Augur} contrató otro equipo de investigadores, esta vez a \t
 
 El equipo de \textit{Coinspect} analizó la herramienta \textit{Solidity} con la posibilidad de encontrar fallas del siguiente estilo:
 \begin{itemize}
-    \item Reducción de la seguridad de los contratos desplegados.
+    \item Reducción de la seguridad de los contratos implementados.
     \item Resultado en comportamiento no determinista.
     \item La ejecución de código malintencionado o que se bloquee al analizar el código fuente de un contrato en Solidity especialmente diseñado.
     \item Agotamiento de recursos durante la compilación, ya sea CPU, memoria o disco.
@@ -183,7 +183,7 @@ Si bien al momento de esta investigación no parecen aplicar seguridad a su \tex
 
 Varios de los bugs reportados por el equipo de \textit{Coinspect} siguen sin estar corregidos, y no es posible distinguir en el sistema de reportes de tickets de \textit{GitHub}, qué bugs corresponden a su suite de testing, y de qué manera se han encontrado. Tal vez muchos errores no llegan a ser publicados mediante commits porque son testeados localmente, y esa información no se encuentra visible al público. El sitio \url{solfuzz.ethdevops.io}\cite{SolfuzzSite} solía dar estadísticas de los resultados encontrados por el \textit{fuzzer} incorporado pero en el momento de este análisis se comprobó que ha dejado de funcionar hace tiempo.\\
 
-Podrá no ser una solución similar a las demás, ya que no se dedican específicamente a aplicar seguridad o auditar el proyecto. Pero todas las soluciones apuntan a lo mismo, securizar los \textit{smart contracts} através del compilador. Ésta es una tarea que principalmente el equipo de \textit{Solidity} debería liderar ya que es su responsabilidad tomar los recaudos necesarios a través de su ciclo de desarrollo para proveer un servicio seguro.
+Podrá no ser una solución similar a las demás, ya que no se dedican específicamente a aplicar seguridad o auditar el proyecto. Pero todas las soluciones apuntan a lo mismo, asegurar los \textit{smart contracts} através del compilador. Ésta es una tarea que principalmente el equipo de \textit{Solidity} debería liderar ya que es su responsabilidad tomar los recaudos necesarios a través de su ciclo de desarrollo para proveer un servicio seguro.
 
 \section{Discusión sobre las soluciones presentadas}
 Mientras más eficiente sea la herramienta para analizar un compilador, más acoplada a su gramática deberá ser, y como consecuencia serán menos abarcativas. La adaptación de estas herramientas para poder migrar entre lenguajes es sumamente costosa.\\
